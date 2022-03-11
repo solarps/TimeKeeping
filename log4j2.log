@@ -1,0 +1,22 @@
+15:54:13.132 [http-nio-8080-exec-8] ERROR - ОШИБКА: INSERT или UPDATE в таблице "users" нарушает ограничение внешнего ключа "users_role_id_fkey"
+  Подробности: Ключ (role_id)=(0) отсутствует в таблице "user_role".
+15:54:13.150 [http-nio-8080-exec-8] ERROR - Dao exception.cannot add user1
+15:54:53.006 [http-nio-8080-exec-2] ERROR - ОШИБКА: INSERT или UPDATE в таблице "users" нарушает ограничение внешнего ключа "users_role_id_fkey"
+  Подробности: Ключ (role_id)=(0) отсутствует в таблице "user_role".
+15:54:53.007 [http-nio-8080-exec-2] ERROR - Dao exception.cannot add user1
+15:57:10.028 [http-nio-8080-exec-5] ERROR - ОШИБКА: INSERT или UPDATE в таблице "users" нарушает ограничение внешнего ключа "users_role_id_fkey"
+  Подробности: Ключ (role_id)=(0) отсутствует в таблице "user_role".
+15:57:10.040 [http-nio-8080-exec-5] ERROR - Dao exception.cannot add user1
+15:59:40.322 [http-nio-8080-exec-5] ERROR - ОШИБКА: INSERT или UPDATE в таблице "users" нарушает ограничение внешнего ключа "users_role_id_fkey"
+  Подробности: Ключ (role_id)=(0) отсутствует в таблице "user_role".
+15:59:40.339 [http-nio-8080-exec-5] ERROR - Dao exception.cannot add user1
+16:04:32.589 [http-nio-8080-exec-5] ERROR - ОШИБКА: INSERT или UPDATE в таблице "users" нарушает ограничение внешнего ключа "users_role_id_fkey"
+  Подробности: Ключ (role_id)=(0) отсутствует в таблице "user_role".
+16:04:32.783 [http-nio-8080-exec-5] ERROR - Dao exception.cannot add user1
+16:07:01.955 [http-nio-8080-exec-7] ERROR - ОШИБКА: INSERT или UPDATE в таблице "users" нарушает ограничение внешнего ключа "users_role_id_fkey"
+  Подробности: Ключ (role_id)=(0) отсутствует в таблице "user_role".
+16:07:02.253 [http-nio-8080-exec-7] ERROR - Dao exception.cannot add user1
+17:24:45.616 [RMI TCP Connection(3)-127.0.0.1] DEBUG - path = C:\Users\Andrey\IdeaProjects\TimeKeeping\target\TimeKeeping-1.0-SNAPSHOT\WEB-INF\logs\log4j2.log
+17:25:15.288 [http-nio-8080-exec-6] TRACE - Request parameter command- -> login
+17:33:41.970 [http-nio-8080-exec-6] TRACE - Command started
+17:33:42.041 [http-nio-8080-exec-6] INFO  - Connection Pool initialized

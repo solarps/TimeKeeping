@@ -1,0 +1,12 @@
+<Context>
+    <Resource
+            name="jdbc/timekeeping"
+            auth="Container"
+            type="javax.sql.DataSource"
+            maxIdle="4" maxWaitMillis="10000" maxTotal="4"
+            username="postgres" password="root"
+            driverClassName="org.postgresql.Driver"
+            defaultAutoCommit="true"
+            defaultTransactionIsolation="READ_COMMITTED"
+            url="jdbc:postgresql://localhost:5432/timekeeping"/>
+</Context>
