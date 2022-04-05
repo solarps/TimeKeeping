@@ -5,37 +5,77 @@
         </svg>
     </a>
 
-    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <c:choose>
-            <c:when test="${sessionScope.user eq null}">
-                <li><a href="index.jsp" class="nav-link px-2 link-secondary">Home</a></li>
-                <li><a href="login.jsp" class="nav-link px-2 link-dark">Activity</a></li>
-                <li><a href="login.jsp" class="nav-link px-2 link-dark">Account</a></li>
-                <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
-            </c:when>
-            <c:otherwise>
-                <li><a href="main.jsp" class="nav-link px-2 link-secondary">Home</a></li>
-                <li><a class="nav-link px-2 link-dark"
-                       href="${pageContext.request.contextPath}/controller?command=getAllActivity">Activities</a>
-                </li>
-                <c:choose>
-                    <c:when test="${sessionScope.user.role eq 'ADMIN'}">
-                        <li><a class="nav-link px-2 link-dark"
-                               href="${pageContext.request.contextPath}/controller?command=getAllUsers">Users</a>
-                        </li>
 
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <c:choose>
+                    <c:when test="${sessionScope.user eq null}">
+                        <li><a href="index.jsp" class="nav-link active">Home</a></li>
+                        <li><a href="login.jsp" class="nav-link">Activity</a></li>
+                        <li><a href="login.jsp" class="nav-link">Account</a></li>
                     </c:when>
                     <c:otherwise>
+                        <li><a href="main.jsp" class="nav-link active">Home</a></li>
+                        <li><a class="nav-link"
+                               href="${pageContext.request.contextPath}/controller?command=getAllActivity">Activities</a>
+                        </li>
+                        <c:choose>
+                            <c:when test="${sessionScope.user.role eq 'ADMIN'}">
+                                <li><a class="nav-link"
+                                       href="${pageContext.request.contextPath}/controller?command=getAllUsers">Users</a>
+                                </li>
 
+                            </c:when>
+                            <c:otherwise>
+
+                            </c:otherwise>
+
+                        </c:choose>
+                        <li><a href="account.jsp" class="nav-link">Account</a></li>
                     </c:otherwise>
-
                 </c:choose>
-                <li><a href="account.jsp" class="nav-link px-2 link-dark">Account</a></li>
-            </c:otherwise>
-        </c:choose>
-    </ul>
 
+            </ul>
+        </div>
+    </nav>
+
+
+    <%-- <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+         <c:choose>
+             <c:when test="${sessionScope.user eq null}">
+                 <li><a href="index.jsp" class="nav-link px-2 link-secondary">Home</a></li>
+                 <li><a href="login.jsp" class="nav-link px-2 link-dark">Activity</a></li>
+                 <li><a href="login.jsp" class="nav-link px-2 link-dark">Account</a></li>
+                 <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
+                 <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+             </c:when>
+             <c:otherwise>
+                 <li><a href="main.jsp" class="nav-link px-2 link-secondary">Home</a></li>
+                 <li><a class="nav-link px-2 link-dark"
+                        href="${pageContext.request.contextPath}/controller?command=getAllActivity">Activities</a>
+                 </li>
+                 <c:choose>
+                     <c:when test="${sessionScope.user.role eq 'ADMIN'}">
+                         <li><a class="nav-link px-2 link-dark"
+                                href="${pageContext.request.contextPath}/controller?command=getAllUsers">Users</a>
+                         </li>
+
+                     </c:when>
+                     <c:otherwise>
+
+                     </c:otherwise>
+
+                 </c:choose>
+                 <li><a href="account.jsp" class="nav-link px-2 link-dark">Account</a></li>
+             </c:otherwise>
+         </c:choose>
+     </ul>
+ --%>
     <div class="col-md-3 text-end">
         <c:choose>
             <c:when test="${sessionScope.user eq null}">

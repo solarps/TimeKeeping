@@ -1,17 +1,29 @@
 package com.my.timekeeping.DTO;
 
+import com.my.timekeeping.entity.State;
+
 import java.io.Serializable;
 
-public class ActivityDTO implements Serializable{
-    private int id;
+public class ActivityDTO implements Serializable {
+    private Long id;
     private String name;
     private String category;
+    private State state;
 
-    public int getId() {
+    public ActivityDTO() {
+    }
+
+    public ActivityDTO(Long id, String name, String category) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -29,5 +41,13 @@ public class ActivityDTO implements Serializable{
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 }

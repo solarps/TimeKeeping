@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDTO implements Serializable {
-    private int id;
+    private Long id;
     private Role role;
     private String login;
     private String name;
@@ -30,7 +30,7 @@ public class UserDTO implements Serializable {
         return password;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -43,7 +43,7 @@ public class UserDTO implements Serializable {
     }
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

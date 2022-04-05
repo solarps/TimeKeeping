@@ -22,6 +22,12 @@ public class CommandContainer {
         commands.put("globalUsersFilter", new GlobalUsersFilterCommand());
         commands.put("globalActivityFilter", new GlobalActivityFilterCommand());
         commands.put("createActivity",new CreateActivityCommand());
+        commands.put("deleteActivity", new DeleteActivityCommand());
+        commands.put("followActivity", new FollowActivityCommand());
+        commands.put("unfollowActivity", new UnfollowActivityCommand());
+        commands.put("followRequestActivity", new FollowRequestCommand());
+        commands.put("confirmActivity", new ConfirmActivityCommand());
+        commands.put("refuseActivity", new RefuseActivityCommand());
     }
 
     private CommandContainer(){}

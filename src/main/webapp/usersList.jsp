@@ -63,7 +63,7 @@
             </div>
             <div class="col-sm-2 text-center">
                 <input type="hidden" name="command" value="globalUsersFilter">
-                <input type="submit" class="btn btn-lg btn-primary btn-block me-2"
+                <input type="submit" class="btn btn-lg btn-primary me-2"
                        value="Search">
             </div>
         </div>
@@ -75,15 +75,15 @@
         <c:when test="${fn:length(userList) == 0}"><h4 class="bg-warning">No such users</h4></c:when>
 
         <c:otherwise>
-            <table class="table text-center">
+            <table class="table table-striped text-center">
                 <caption class="text-center">found users</caption>
 
-                <thead>
+                <thead class="thead-light">
                 <tr>
-                    <th>Name</th>
-                    <th>Login</th>
-                    <th>Role</th>
-                    <th>Activity</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Login</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Activity</th>
                 </tr>
                 </thead>
 
@@ -103,7 +103,8 @@
                             <c:when test="${user.role ne 'ADMIN' and fn:length(user.activities)!=0}">
                                 <td>
 
-                                    <button class="btn-modal btn-sm btn-primary me-2 btn btn-block" id="${user.id}" style="border-radius: 5px">
+                                    <button class="btn-modal btn-sm btn-primary me-2 btn" id="${user.id}"
+                                            style="border-radius: 5px">
                                         Activity
                                     </button>
                                     <div class="modal-overlay" id="${user.id}">
@@ -115,6 +116,7 @@
                                                 <tr>
                                                     <th>Name</th>
                                                     <th>Category</th>
+                                                    <th>Action</th>
                                                 </tr>
                                                 </thead>
 
@@ -126,6 +128,34 @@
                                                         </td>
                                                         <td>
                                                             <c:out value="${activity.category}"></c:out>
+                                                        </td>
+                                                        <td>
+                                                            <c:if test="${activity.state == 'WAITING'}">
+                                                                <form method="post" action="controller">
+                                                                    <input name="activity_id" type="hidden" value="${activity.id}">
+                                                                    <input name="user_id" type="hidden" value="${user.id}">
+                                                                    <input type="hidden" name="command" value="confirmActivity">
+                                                                    <input type="submit" class="btn btn-lg btn-primary me-2"
+                                                                           value="Confirm">
+                                                                </form>
+                                                                <form method="post" action="controller">
+                                                                    <input name="activity_id" type="hidden" value="${activity.id}">
+                                                                    <input name="user_id" type="hidden" value="${user.id}">
+                                                                    <input type="hidden" name="command" value="refuseActivity">
+                                                                    <input type="submit" class="btn btn-lg btn-primary me-2"
+                                                                           value="Refuse">
+                                                                </form>
+                                                            </c:if>
+                                                            <c:if test="${activity.state == 'FOLLOWED'}">
+                                                                <form method="post" action="controller">
+                                                                    <input name="activity_id" type="hidden" value="${activity.id}">
+                                                                    <input name="user_id" type="hidden" value="${user.id}">
+                                                                    <input type="hidden" name="command" value="refuseActivity">
+                                                                    <button type="submit" class="btn btn-sm btn-danger" value="Delete">
+                                                                        Delete
+                                                                    </button>
+                                                                </form>
+                                                            </c:if>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>

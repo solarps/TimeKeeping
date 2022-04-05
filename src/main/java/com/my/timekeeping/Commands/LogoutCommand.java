@@ -19,7 +19,7 @@ public class LogoutCommand implements Command {
             session.removeAttribute("user");
             session.invalidate();
         }
-        logger.trace("Command finished");
+        logger.trace("logout finished");
         return "index.jsp";
     }
 }

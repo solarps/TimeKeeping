@@ -1,6 +1,5 @@
 package com.my.timekeeping.DAO;
 
-import com.my.timekeeping.DTO.ActivityDTO;
 import com.my.timekeeping.DTO.UserDTO;
 import com.my.timekeeping.PasswordUtil;
 import com.my.timekeeping.entity.Role;
@@ -35,10 +34,10 @@ public class UserDAO {
     public boolean isUserExist(String login) {
         boolean result = false;
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement =
+             PreparedStatement getUserStatement =
                      connection.prepareStatement(GET_USER_ID_BY_LOGIN)) {
-            preparedStatement.setString(1, login);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            getUserStatement.setString(1, login);
+            ResultSet resultSet = getUserStatement.executeQuery();
             if (resultSet.next()) {
                 result = true;
             }
@@ -50,17 +49,17 @@ public class UserDAO {
 
     public void addUser(User user) throws DAOException, EncryptException {
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement =
+             PreparedStatement addUserStatement =
                      connection.prepareStatement(ADD_NEW_USER)) {
 
             int k = 1;
-            //preparedStatement.setInt(k++, user.getRoleId());
-            preparedStatement.setInt(k++, 2);
-            preparedStatement.setString(k++, user.getName());
-            preparedStatement.setString(k++, user.getLogin());
-            //preparedStatement.setString(k++, user.getEmail());
-            preparedStatement.setString(k, PasswordUtil.getSaltedHash(user.getPassword()));
-            int res = preparedStatement.executeUpdate();
+            //addUserStatement.setInt(k++, user.getRoleId());
+            addUserStatement.setInt(k++, 2);
+            addUserStatement.setString(k++, user.getName());
+            addUserStatement.setString(k++, user.getLogin());
+            //addUserStatement.setString(k++, user.getEmail());
+            addUserStatement.setString(k, PasswordUtil.getSaltedHash(user.getPassword()));
+            int res = addUserStatement.executeUpdate();
             System.out.println(res);
         } catch (SQLException | NoSuchAlgorithmException e) {
             logger.error(e.getMessage());
@@ -71,7 +70,7 @@ public class UserDAO {
     public UserDTO getUserByLogin(String login) throws DAOException {
         logger.trace("get user by login started");
         UserDTO userDTO = new UserDTO();
-        userDTO.setId(-1);
+        userDTO.setId(-1L);
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement =
@@ -92,8 +91,8 @@ public class UserDAO {
     private UserDTO mapUser(ResultSet rs) throws SQLException {
         logger.trace("user mapping started");
         UserDTO userDTO = new UserDTO();
-        userDTO.setId(-1);
-        userDTO.setId(rs.getInt("id"));
+        userDTO.setId(-1L);
+        userDTO.setId(rs.getLong("id"));
         userDTO.setRole(Role.valueOf(rs.getString("role")));
         userDTO.setName(rs.getString("name"));
         userDTO.setLogin(rs.getString("login"));

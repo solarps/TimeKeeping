@@ -2,6 +2,9 @@ package com.my.timekeeping.Commands;
 
 import com.my.timekeeping.DAO.DBManager;
 import com.my.timekeeping.DTO.ActivityDTO;
+import com.my.timekeeping.DTO.UserDTO;
+import com.my.timekeeping.entity.Role;
+import com.my.timekeeping.entity.User;
 import com.my.timekeeping.exceptions.DAOException;
 import com.my.timekeeping.exceptions.EncryptException;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +20,8 @@ public class GetAllActivityCommand implements Command {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DAOException, EncryptException {
         logger.trace("Command started");
-        List<ActivityDTO> activityList = DBManager.getInstance().getAllActivities();
+        UserDTO user = (UserDTO) req.getSession().getAttribute("user");
+        List<ActivityDTO> activityList = DBManager.getInstance().getAllActivities(user);
         List<String> categories = DBManager.getInstance().getAllCategories();
         req.setAttribute("categoryList", categories);
         req.setAttribute("activityList", activityList);

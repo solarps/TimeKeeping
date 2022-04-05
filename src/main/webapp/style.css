@@ -5,7 +5,7 @@
     right: 0;
     top: 0;
     bottom: 0;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0, 0, 0, 0.8);
     align-items: center;
     justify-content: center;
     height: 100%;
@@ -15,23 +15,22 @@
     transition: all 0.3s ease-in-out;
 }
 
-.modal-content{
+.modal-content {
     background-color: #fff;
-    width: 500px;
-    height: 400px;
+    width: 70%;
     align-items: center;
     justify-content: center;
     display: none;
     padding: 15px;
 }
 
-.modal-overlay--visible{
+.modal-overlay--visible {
     opacity: 1;
     visibility: visible;
     transition: all 0.3s ease-in-out;
 }
 
-.modal--visible{
+.modal--visible {
     display: block;
 }
 
@@ -49,12 +48,6 @@
     cursor: pointer;
 }
 
-.btn-modal{
+.btn-modal {
     border-radius: 5px;
-}
-
-.table{
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
 }

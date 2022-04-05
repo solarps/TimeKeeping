@@ -26,6 +26,11 @@ public class GlobalUsersFilterCommand implements Command {
         String name = req.getParameter("name");
         String login = req.getParameter("login");
         String sortType = req.getParameter("sort");
+
+        if (name.isEmpty() && login.isEmpty() && roles == null){
+            return "controller?command=getAllUsers";
+        }
+
         if (!login.isEmpty()) {
             logger.trace("search user by login started");
             users = searchByLogin(login, users);

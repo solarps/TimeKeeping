@@ -4,14 +4,14 @@ import com.my.timekeeping.entity.Role;
 import com.my.timekeeping.entity.User;
 
 public class UserBuilder implements Builder {
-    private int id;
+    private Long id;
     private Role role;
     private String name;
     private String login;
     private String password;
 
     @Override
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

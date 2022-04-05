@@ -5,14 +5,14 @@ import java.util.List;
 
 public class User implements Serializable {
 
-    private int id;
+    private Long id;
     private Role role;
     private String name;
     private String login;
     private String password;
     private List<Activity> activities;
 
-    public User(int id, Role role, String name, String login, String password) {
+    public User(Long id, Role role, String name, String login, String password) {
         this.id = id;
         this.role = role;
         this.name = name;
@@ -20,7 +20,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public User(int id, String name, String login, String password) {
+    public User(Long id, String name, String login, String password) {
         this.id = id;
         this.role = Role.USER;
         this.name = name;
