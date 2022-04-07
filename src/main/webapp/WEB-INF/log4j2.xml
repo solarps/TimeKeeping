@@ -5,7 +5,7 @@
             <!-- <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level - %msg%n" />-->
             <PatternLayout pattern="%sn %d{yyyy/MM/dd HH:mm:ss,SSS} %r [%-6p] [%t] %c{3} %C{3}.%M(%F:%L) – %m%n"/>
         </Console>
-        <File name="File" fileName="D:\_EpamFinalProject\RepairAgency\log4j2.log" append="true"><!--${sys:logFile}-->
+        <File name="File" fileName="D:\_EpamFinalProject\TimeKeeping\log4j2.log" append="true"><!--${sys:logFile}-->
             <PatternLayout>
                 <Pattern>%d{HH:mm:ss.SSS} [%t] %-5level - %msg%n</Pattern>
             </PatternLayout>

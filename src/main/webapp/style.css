@@ -1,4 +1,5 @@
 .modal-overlay {
+    z-index: 1031;
     position: fixed;
     display: flex;
     left: 0;
@@ -50,4 +51,32 @@
 
 .btn-modal {
     border-radius: 5px;
+}
+
+
+.error-modal-overlay {
+    z-index: 1031;
+    position: fixed;
+    display: flex;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.error-modal-content {
+    background-color: #fff;
+    width: 70%;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    padding: 15px;
 }

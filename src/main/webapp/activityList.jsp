@@ -1,10 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="WEB-INF/includes/taglib.jspf" %>
-<html>
+
+<html lang="${sessionScope.lang}">
 <head>
     <%@include file="WEB-INF/includes/header-links.jsp" %>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Activity</title>
+    <title><fmt:message key="activities"/> </title>
 </head>
 <body>
 <%@include file="WEB-INF/includes/nav-bar.jsp" %>
@@ -12,8 +13,8 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-sm-3 text-center text-secondary"><h4>Search by category</h4></div>
-        <div class="col-sm-4 text-center text-secondary"><h4>Search by name</h4></div>
+        <div class="col-sm-3 text-center text-secondary"><h4><fmt:message key="sbc"/></h4></div>
+        <div class="col-sm-4 text-center text-secondary"><h4><fmt:message key="sbn1"/></h4></div>
         <div class="col-sm-6 text-center text-secondary"></div>
     </div>
 
@@ -22,9 +23,9 @@
         <div class="row">
             <%--CATEGORY FILTRATION--%>
             <div class="col-sm-3 text-center">
-                <h6>Choose category</h6>
+                <h6><fmt:message key="chooseCategory"/></h6>
                 <select class="form-select" name="category" style="width: 70%; display: inline">
-                    <option value="ALL">Choose...</option>
+                    <option value="ALL"><fmt:message key="choose"/></option>
                     <c:forEach var="category" items="${categoryList}">
                         <option value="${category}"><c:out value="${category}"/></option>
                     </c:forEach>
@@ -34,20 +35,20 @@
             <%--SEARCH BY NAME--%>
             <div class="col-sm-4 text-center">
 
-                <h6>Enter activity name</h6>
+                <h6><fmt:message key="ean"/></h6>
 
-                <input type="text" placeholder="name" name="name">
+                <input type="text" placeholder="<fmt:message key="name2"/>" name="name">
 
             </div>
 
             <div class="col-sm-4 text-center">
                 <input type="hidden" name="command" value="globalActivityFilter">
                 <button type="submit" class="btn btn-sm btn-primary me-2"
-                        value="Search">Search
+                        value="Search"><fmt:message key="search"/>
                 </button>
                 <c:if test="${sessionScope.user.role eq 'ADMIN'}">
                     <button class="btn-modal btn-sm btn-primary me-2 btn" type="button">
-                        Add new activity
+                        <fmt:message key="ana_btn"/>
                     </button>
                 </c:if>
             </div>
@@ -58,20 +59,22 @@
             <div class="modal-content text-center" style="user-select: none">
                 <span class="close">&times;</span>
                 <form method="post" action="controller">
-                    <h1 class="h3 mt-4 mb-3 font-weight-normal">Please fill empty spaces</h1>
-                    <input name="name" type="name" id="name" class="form-control " placeholder="Name" required>
+                    <h1 class="h3 mt-4 mb-3 font-weight-normal"><fmt:message key="pfes"/></h1>
+                    <input name="name" type="name" id="name" class="form-control "
+                           placeholder="<fmt:message key="name"/>" required>
                     <br>
                     <c:if test="${fn:length(categoryList) != 0}">
                         <input class="form-check-input" type="checkbox" id="CheckCategory" onclick="checkCategory()">
-                        <label class="form-check-label" for="CheckCategory" id="CheckCategoryLabel">Choose exists
-                            category</label>
+                        <label class="form-check-label" for="CheckCategory" id="CheckCategoryLabel"><fmt:message
+                                key="cec"/></label>
                     </c:if>
                     <br id="br">
-                    <input name="category" type="category" id="category" class="form-control " placeholder="Category"
+                    <input name="category" type="category" id="category" class="form-control "
+                           placeholder="<fmt:message key="category"/> "
                            required>
                     <br>
                     <input type="hidden" name="command" value="createActivity">
-                    <input type="submit" class="btn btn-lg btn-primary btn-block" value="Create">
+                    <input type="submit" class="btn btn-lg btn-primary btn-block" value="<fmt:message key="create"/> ">
                 </form>
             </div>
         </div>
@@ -81,18 +84,18 @@
     <c:choose>
         <c:when test="${fn:length(activityList) == 0}">
             <div class="alert alert-warning" role="alert">
-                No such activities
+                <fmt:message key="nsa"/>
             </div>
         </c:when>
         <c:otherwise>
             <table id="example" class="table table-striped text-center">
-                <caption class="text-center">found activities</caption>
+                <caption class="text-center"><fmt:message key="found_a"/></caption>
 
                 <thead class="thead-light">
                 <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Action</th>
+                    <th scope="col"><fmt:message key="name"/></th>
+                    <th scope="col"><fmt:message key="category"/></th>
+                    <th scope="col"><fmt:message key="action"/></th>
                 </tr>
                 </thead>
 
@@ -114,7 +117,7 @@
                                         <input name="category" type="hidden" value="${activity.category}">
                                         <input type="hidden" name="command" value="deleteActivity">
                                         <button type="submit" class="btn btn-sm btn-danger" value="Delete">
-                                            Delete
+                                            <fmt:message key="delete"/>
                                         </button>
                                     </c:when>
                                     <c:otherwise>
@@ -124,7 +127,7 @@
                                             <input type="hidden" name="command" value="followRequestActivity">
                                             <button type="submit" class="btn btn-sm btn-primary "
                                                     value="Follow">
-                                                Follow
+                                                <fmt:message key="follow"/>
                                             </button>
                                         </c:if>
                                         <c:if test="${activity.state == 'FOLLOWED'}">
@@ -133,19 +136,19 @@
                                             <input type="hidden" name="command" value="unfollowActivity">
                                             <button type="submit" class="btn btn-sm btn-outline-primary "
                                                     value="Unfollow">
-                                                Unfollow
+                                                <fmt:message key="unfollow"/>
                                             </button>
                                         </c:if>
                                         <c:if test="${activity.state == 'WAITING'}">
                                             <div class="alert alert-secondary" role="alert">
-                                                Request sent
+                                                <fmt:message key="request_sent"/>
                                             </div>
                                             <input name="activity_id" type="hidden" value="${activity.id}">
                                             <input name="user_id" type="hidden" value="${sessionScope.user.id}">
                                             <input type="hidden" name="command" value="unfollowActivity">
                                             <button type="submit" class="btn btn-sm btn-outline-primary "
                                                     value="Unfollow">
-                                                Unfollow
+                                                <fmt:message key="unfollow"/>
                                             </button>
                                         </c:if>
                                     </c:otherwise>
@@ -158,13 +161,20 @@
             </table>
         </c:otherwise>
     </c:choose>
-    <c:if test="${sessionScope.error ne null}">
-        <div class="alert alert-danger" role="alert">
-                ${sessionScope.error}
-        </div>
-    </c:if>
-    <br><h4 class="text-danger">${sessionScope.error}</h4>
 </div>
+<c:if test="${sessionScope.error ne null}">
+    <div class="error-modal">
+        <div class="error-modal-overlay">
+            <div class="error-modal-content">
+                <span class="error-close close">&times;</span>
+                <div class="alert alert-danger" role="alert">
+                        ${sessionScope.error}
+                </div>
+            </div>
+        </div>
+    </div>
+</c:if>
+
 <script>
 
     const btn = document.querySelector('.btn-modal');
@@ -208,6 +218,20 @@
         }
     }
 
+    const error_modal = document.querySelector('.error-modal-content')
+    const error_modal_overlay = document.querySelector('.error-modal-overlay')
+    const error_close = document.querySelector('.error-close');
+
+
+    document.querySelector('.error-modal-content').classList.add('modal--visible');
+    error_modal_overlay.classList.add('modal-overlay--visible');
+
+
+    error_modal_overlay.addEventListener('click', (e) => {
+        if (e.target == error_modal_overlay || e.target == error_close) {
+            error_modal_overlay.classList.remove('modal-overlay--visible');
+        }
+    })
 
 </script>
 <%--<%@include file="WEB-INF/includes/footer-links.jsp" %>--%>

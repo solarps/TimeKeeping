@@ -120,7 +120,7 @@ public class ActivityDAO {
             if (resultSet.next()) return true;
         } catch (SQLException exception) {
             logger.warn("error while checking is activity exists . Caused by {}", exception.getMessage());
-            throw new DAOException("error while checking");
+            throw new DAOException("error while checking is activity exists");
         }
         return false;
     }
@@ -180,15 +180,15 @@ public class ActivityDAO {
     public void deleteActivity(ActivityDTO activityDTO) throws DAOException {
         logger.trace("delete activity started");
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement deleteStatement = connection.prepareStatement(DELETE_ACTIVITY)) {
-            deleteStatement.setLong(1, activityDTO.getId());
-            int res1 = deleteStatement.executeUpdate();
-            System.out.println(res1);
-
-            PreparedStatement deleteForUsersStatement = connection.prepareStatement(DELETE_FOR_USERS_ACTIVITY);
+             PreparedStatement deleteForUsersStatement = connection.prepareStatement(DELETE_FOR_USERS_ACTIVITY)) {
             deleteForUsersStatement.setLong(1, activityDTO.getId());
             int res2 = deleteForUsersStatement.executeUpdate();
             System.out.println(res2);
+
+            PreparedStatement deleteStatement = connection.prepareStatement(DELETE_ACTIVITY);
+            deleteStatement.setLong(1, activityDTO.getId());
+            int res1 = deleteStatement.executeUpdate();
+            System.out.println(res1);
         } catch (SQLException exception) {
             logger.error("Error while trying delete activity cause:{}", exception.getMessage());
             throw new DAOException("Error while trying delete activity");

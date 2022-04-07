@@ -1,4 +1,4 @@
-package com.my.timekeeping;
+package com.my.timekeeping.filter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -7,6 +7,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "SessionLocaleFilter", urlPatterns = {"/*"})
 public class SessionLocaleFilter implements Filter {
+
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 

@@ -12,3 +12,10 @@ JSTL functions tag library.
 JSTL i18n tag library.
 ===========================================================================--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<%@ page isELIgnored="false" %>
+
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="Bundle resources/messages"/>
+
+

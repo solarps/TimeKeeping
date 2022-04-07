@@ -4,17 +4,17 @@ public class Activity {
     private Long id;
     private String name;
     private String category;
-    private Boolean followed;
+    private State state;
 
     public Activity(String name, String category) {
         this.name = name;
         this.category = category;
     }
 
-    public Activity(String name, String category, Boolean followed) {
+    public Activity(String name, String category, State state) {
         this.name = name;
         this.category = category;
-        this.followed = followed;
+        this.state = state;
     }
 
     public String getName() {

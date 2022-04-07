@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class CreateActivityCommand implements Command {
 
@@ -17,12 +19,12 @@ public class CreateActivityCommand implements Command {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DAOException, EncryptException {
         logger.trace("command started");
-
+        req.getSession().removeAttribute("error");
         final String name = req.getParameter("name");
         final String category = req.getParameter("category");
 
         if (DBManager.getInstance().isActivityExist(name, category)) {
-            req.setAttribute("error", "Activity is already exist");
+            req.getSession().setAttribute("error", "Activity is already exist");
             logger.error("Activity is already exist");
             return "controller?command=getAllActivity";
         }

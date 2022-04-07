@@ -23,8 +23,8 @@ public class DBManager {
     private static final UserDAO userDAOInstance = UserDAO.getInstance();
     private static final ActivityDAO activityDAOInstance = ActivityDAO.getInstance();
 
-    private static Integer wait_id = 2;
-    private static Integer follow_id = 2;
+    private static final Integer wait_id = 2;
+    private static final Integer followed_id = 1;
 
     private DBManager() {
     }

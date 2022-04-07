@@ -1,7 +1,6 @@
 package com.my.timekeeping.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class User implements Serializable {
 
@@ -10,7 +9,6 @@ public class User implements Serializable {
     private String name;
     private String login;
     private String password;
-    private List<Activity> activities;
 
     public User(Long id, Role role, String name, String login, String password) {
         this.id = id;
