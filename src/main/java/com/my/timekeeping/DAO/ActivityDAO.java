@@ -15,6 +15,12 @@ import java.util.List;
 
 import static com.my.timekeeping.DAO.SQLQuery.ActivityRequest.*;
 
+/**
+ * This class for interaction in the database with activity (dao layer)
+ *
+ * @author Andrey
+ * @version 1.0
+ */
 public class ActivityDAO {
     private static final Logger logger = LogManager.getLogger(ActivityDAO.class);
     private static ActivityDAO instance;
@@ -22,11 +28,21 @@ public class ActivityDAO {
     private ActivityDAO() {
     }
 
+    ///////////////
+    ///singleton///
+    ///////////////
+
     public static synchronized ActivityDAO getInstance() {
         if (instance == null) instance = new ActivityDAO();
         return instance;
     }
 
+
+    /**
+     * This method that makes a database query and assigns an activity to each user
+     *
+     * @param users list of users obtained from database
+     */
     public void mapAllActivityForeachUser(List<UserDTO> users) throws DAOException {
 
         logger.trace("get all activities for users started");
@@ -52,10 +68,15 @@ public class ActivityDAO {
             logger.warn("error while getting activities . Caused by {}", exception.getMessage());
             throw new DAOException("Cannot get activities");
         }
-
-        //return users;
     }
 
+    /**
+     * This supporting method that maps result set from database to activity entity
+     *
+     * @param rs result set from database response
+     * @param k  desired cell index of result set
+     * @return ActivityDTO (mapped activity from db)
+     */
     private ActivityDTO mapActivity(ResultSet rs, int k) throws SQLException {
         logger.trace("activity mapping started");
         ActivityDTO activityDTO = new ActivityDTO();
@@ -67,7 +88,12 @@ public class ActivityDAO {
         return activityDTO;
     }
 
-
+    /**
+     * This method that mapped activity to for each user
+     *
+     * @param rs          result set of db query
+     * @param userDTOList list of users obtained from database
+     */
     private void mapActivityToUser(ResultSet rs, List<UserDTO> userDTOList) throws SQLException {
         for (UserDTO userDTO : userDTOList) {
             if (userDTO.getId() == rs.getInt(1)) {
@@ -76,7 +102,12 @@ public class ActivityDAO {
         }
     }
 
-    public List<ActivityDTO> getAllActivity(UserDTO user) throws DAOException {
+    /**
+     * This method that receives all activities
+     *
+     * @return list of activities obtained from database
+     */
+    public List<ActivityDTO> getAllActivities() throws DAOException {
         logger.trace("get all activities started");
         List<ActivityDTO> results = new ArrayList<>();
         try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -93,6 +124,11 @@ public class ActivityDAO {
         return results;
     }
 
+    /**
+     * This method that receives all categories
+     *
+     * @return list of category names retrieved from the database
+     */
     public List<String> getAllCategories() throws DAOException {
         logger.trace("get all categories started");
         List<String> results = new ArrayList<>();
@@ -110,6 +146,13 @@ public class ActivityDAO {
         return results;
     }
 
+    /**
+     * This method that checked is activity exists in database
+     *
+     * @param name     name of activity
+     * @param category name of activity category
+     * @return boolean result of check
+     */
     public boolean isActivityExist(String name, String category) throws DAOException {
         logger.trace("check is activity exists started");
         try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -125,6 +168,12 @@ public class ActivityDAO {
         return false;
     }
 
+    /**
+     * This method that checked is activity category exists in database
+     *
+     * @param category name of activity category
+     * @return boolean result of check
+     */
     public boolean isActivityCategoryExist(String category) throws DAOException {
         logger.trace("check is category exists started");
         try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -140,61 +189,84 @@ public class ActivityDAO {
         return false;
     }
 
+    /**
+     * This method that create new activity category in database
+     *
+     * @param category name of activity category
+     */
     public void createActivityCategory(String category) throws DAOException {
         logger.trace("create activity category started");
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement addCategoryStatement = connection.prepareStatement(ADD_NEW_ACTIVITY_CATEGORY)) {
             addCategoryStatement.setString(1, category);
             int res = addCategoryStatement.executeUpdate();
-            System.out.println(res);
+            traceResult(res);
         } catch (SQLException exception) {
             logger.error("error while creating new category cause :{}", exception.getMessage());
             throw new DAOException("error while creating new category");
         }
     }
 
-
+    /**
+     * This method that adds a new activity to the database
+     *
+     * @param activity new activity to be added
+     */
     public void addActivity(Activity activity) throws DAOException {
         logger.trace("add activity started");
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement getIDStatement = connection.prepareStatement(GET_CATEGORY_ID)) {
+             PreparedStatement getIDStatement = connection.prepareStatement(GET_CATEGORY_ID);
+             PreparedStatement addActivityStatement = connection.prepareStatement(ADD_NEW_ACTIVITY)) {
+
             getIDStatement.setString(1, activity.getCategory());
             ResultSet resultSet = getIDStatement.executeQuery();
             int id = 0;
             while (resultSet.next()) {
                 id = resultSet.getInt(1);
             }
-            PreparedStatement addActivityStatement = connection.prepareStatement(ADD_NEW_ACTIVITY);
+
 
             addActivityStatement.setString(1, activity.getName());
             addActivityStatement.setInt(2, id);
 
             int res = addActivityStatement.executeUpdate();
-            System.out.println(res);
+            traceResult(res);
         } catch (SQLException exception) {
             logger.error("Error while trying add activity cause :{}", exception.getMessage());
             throw new DAOException("Error while trying add activity");
         }
     }
 
+    /**
+     * This method that deletes activity from database
+     *
+     * @param activityDTO activity to be removed
+     */
     public void deleteActivity(ActivityDTO activityDTO) throws DAOException {
         logger.trace("delete activity started");
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement deleteForUsersStatement = connection.prepareStatement(DELETE_FOR_USERS_ACTIVITY)) {
+             PreparedStatement deleteForUsersStatement = connection.prepareStatement(DELETE_FOR_USERS_ACTIVITY);
+             PreparedStatement deleteStatement = connection.prepareStatement(DELETE_ACTIVITY)) {
+
             deleteForUsersStatement.setLong(1, activityDTO.getId());
             int res2 = deleteForUsersStatement.executeUpdate();
-            System.out.println(res2);
+            traceResult(res2);
 
-            PreparedStatement deleteStatement = connection.prepareStatement(DELETE_ACTIVITY);
             deleteStatement.setLong(1, activityDTO.getId());
             int res1 = deleteStatement.executeUpdate();
-            System.out.println(res1);
+            traceResult(res1);
         } catch (SQLException exception) {
             logger.error("Error while trying delete activity cause:{}", exception.getMessage());
             throw new DAOException("Error while trying delete activity");
         }
     }
 
+    /**
+     * This method that gets activity id from database
+     *
+     * @param activityDTO activity what id should have received
+     * @return id of activity
+     */
     public Long getActivityId(ActivityDTO activityDTO) throws DAOException {
         logger.trace("get activity id started");
         try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -210,6 +282,12 @@ public class ActivityDAO {
         }
     }
 
+    /**
+     * This method that count of activities with given category
+     *
+     * @param category category needs to be count
+     * @return count of activities
+     */
     public int countOfCategory(String category) throws DAOException {
         logger.trace("get count of categories started");
         try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -218,7 +296,7 @@ public class ActivityDAO {
             ResultSet rs = countOfCategoryStatement.executeQuery();
             rs.next();
             int res = rs.getInt(1);
-            System.out.println(res);
+            traceResult(res);
             return res;
         } catch (SQLException exception) {
             logger.error("Error while count category iteration cause:{}", exception.getMessage());
@@ -227,16 +305,30 @@ public class ActivityDAO {
 
     }
 
+    /**
+     * This method that delete category from database
+     *
+     * @param category name of category
+     */
     public void deleteCategory(String category) throws DAOException {
         logger.trace("delete category started");
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement deleteCategoryStatement = connection.prepareStatement(DELETE_CATEGORY)) {
             deleteCategoryStatement.setString(1, category);
             int res = deleteCategoryStatement.executeUpdate();
-            System.out.println(res);
+            traceResult(res);
         } catch (SQLException exception) {
             logger.error("Error while deleting category cause:{}", exception.getMessage());
             throw new DAOException("Error while deleting category");
         }
+    }
+
+    /**
+     * This method that trace result in log4j
+     *
+     * @param res result of database query
+     */
+    private void traceResult(int res) {
+        logger.trace("Result :{}", res);
     }
 }
