@@ -20,7 +20,7 @@
                         <li><a href="login.jsp" class="nav-link"><fmt:message key="account"/></a></li>
                     </c:when>
                     <c:otherwise>
-                        <li><a href="main.jsp" class="nav-link active"><fmt:message key="home"/></a></li>
+                        <li><a href="index.jsp" class="nav-link active"><fmt:message key="home"/></a></li>
                         <li><a class="nav-link"
                                href="${pageContext.request.contextPath}/controller?command=getAllActivity"><fmt:message
                                 key="activities"/></a>

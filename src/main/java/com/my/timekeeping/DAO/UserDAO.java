@@ -68,7 +68,7 @@ public class UserDAO {
      *
      * @param user new user to be added
      */
-    public void addUser(User user) throws DAOException, EncryptException {
+    public Long addUser(User user) throws DAOException, EncryptException {
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement addUserStatement =
                      connection.prepareStatement(ADD_NEW_USER)) {
@@ -80,8 +80,13 @@ public class UserDAO {
             addUserStatement.setString(k++, user.getLogin());
             addUserStatement.setString(k, PasswordUtil.getSaltedHash(user.getPassword()));
 
-            int res = addUserStatement.executeUpdate();
-            logger.trace("Result :{}", res);
+            ResultSet rs = addUserStatement.executeQuery();
+            long res = 0L;
+            if (rs.next()) {
+                res = rs.getLong(1);
+            }
+            logger.trace("Returned id:{}", res);
+            return res;
         } catch (SQLException | NoSuchAlgorithmException e) {
             logger.error(e.getMessage());
             throw new DAOException("cannot add new user");

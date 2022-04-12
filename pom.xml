@@ -15,11 +15,15 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <junit.version>5.8.2</junit.version>
+        <testng.version>7.5</testng.version>
+        <assertj.version>3.21.0</assertj.version>
+        <mockito.version>4.4.0</mockito.version>
         <log4j.version>2.14.1</log4j.version>
         <postgresql.version>42.3.2</postgresql.version>
         <jstl.version>1.2</jstl.version>
         <taglibs.versin>1.1.2</taglibs.versin>
         <commons.codec.version>1.10</commons.codec.version>
+
     </properties>
 
     <dependencies>
@@ -44,6 +48,24 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

@@ -1,13 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="WEB-INF/includes/taglib.jspf" %>
-
+<%@include file="WEB-INF/includes/taglib.jspf" %>
 <html lang="${sessionScope.lang}">
 <head>
-    <title><fmt:message key="time_keep"/></title>
     <%@include file="WEB-INF/includes/header-links.jsp" %>
+    <title><fmt:message key="welcome"/></title>
 </head>
 <body>
 <%@include file="WEB-INF/includes/nav-bar.jsp" %>
+
+<c:if test="${sessionScope.user ne null}">
+    <h3><fmt:message key="welcome"/></h3>
+    <hr/>
+    ${sessionScope.user.role} ${sessionScope.user.name}, <fmt:message key="hello"/>!
+    <hr/>
+    <br>
+</c:if>
 <%@include file="WEB-INF/includes/footer-links.jsp" %>
 </body>
 </html>

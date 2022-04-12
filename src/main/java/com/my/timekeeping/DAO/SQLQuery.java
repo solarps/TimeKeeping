@@ -23,7 +23,7 @@ public class SQLQuery {
 
         public static final String GET_USER_ID_BY_LOGIN = "SELECT id FROM users WHERE login = ?";
         //public static final String GET_USER_BY_LOGIN = "SELECT * FROM users JOIN user_role USING (role_id) WHERE login = ?";
-        public static final String ADD_NEW_USER = "insert into users (role_id, name, login, password) values (?, ?, ?, ?)";
+        public static final String ADD_NEW_USER = "insert into users (role_id, name, login, password) values (?, ?, ?, ?) returning id";
         public static final String GET_USER_BY_LOGIN = "select users.id,title as role,name, login, password " +
                 "from users join user_role ur on users.role_id = ur.id WHERE login = ?";
         public static final String GET_ALL_USERS = "select users.id,title as role,name, login, password " +

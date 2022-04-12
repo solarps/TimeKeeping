@@ -2,6 +2,12 @@ package com.my.timekeeping.entity;
 
 import java.io.Serializable;
 
+/**
+ * This entity class for user with Builder class for builder pattern
+ *
+ * @author Andrey
+ * @version 1.0
+ */
 public class User implements Serializable {
 
     private Long id;
@@ -10,27 +16,15 @@ public class User implements Serializable {
     private String login;
     private String password;
 
-    public User(Long id, Role role, String name, String login, String password) {
-        this.id = id;
-        this.role = role;
-        this.name = name;
-        this.login = login;
-        this.password = password;
+    private User() {
     }
 
-    public User(Long id, String name, String login, String password) {
-        this.id = id;
-        this.role = Role.USER;
-        this.name = name;
-        this.login = login;
-        this.password = password;
+    public Long getId() {
+        return id;
     }
 
-    public User(String name, String login, String password) {
-        this.role = Role.USER;
-        this.name = name;
-        this.login = login;
-        this.password = password;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Role getRole() {
@@ -50,4 +44,45 @@ public class User implements Serializable {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public static User.Builder newBuilder() {
+        return new User().new Builder();
+    }
+
+    public class Builder {
+        private Builder() {
+        }
+
+        public User.Builder setId(Long id) {
+            User.this.id = id;
+            return this;
+        }
+
+        public User.Builder setRole(Role role) {
+            User.this.role = role;
+            return this;
+        }
+
+        public User.Builder setName(String name) {
+            User.this.name = name;
+            return this;
+        }
+
+        public User.Builder setLogin(String login) {
+            User.this.login = login;
+            return this;
+        }
+
+        public User.Builder setPassword(String password) {
+            User.this.password = password;
+            return this;
+        }
+
+        public User build() {
+            return User.this;
+        }
+    }
 }
