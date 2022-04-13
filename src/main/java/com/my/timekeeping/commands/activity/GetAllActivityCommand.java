@@ -1,10 +1,8 @@
-package com.my.timekeeping.Commands;
+package com.my.timekeeping.commands.activity;
 
-import com.my.timekeeping.DAO.DBManager;
+import com.my.timekeeping.commands.Command;
+import com.my.timekeeping.DAO.ActivityDAO;
 import com.my.timekeeping.DTO.ActivityDTO;
-import com.my.timekeeping.DTO.UserDTO;
-import com.my.timekeeping.entity.Role;
-import com.my.timekeeping.entity.User;
 import com.my.timekeeping.exceptions.DAOException;
 import com.my.timekeeping.exceptions.EncryptException;
 import org.apache.logging.log4j.LogManager;
@@ -20,9 +18,9 @@ public class GetAllActivityCommand implements Command {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DAOException, EncryptException {
         logger.trace("Command started");
-        UserDTO user = (UserDTO) req.getSession().getAttribute("user");
-        List<ActivityDTO> activityList = DBManager.getInstance().getAllActivities(user);
-        List<String> categories = DBManager.getInstance().getAllCategories();
+        //UserDTO user = (UserDTO) req.getSession().getAttribute("user");
+        List<ActivityDTO> activityList = ActivityDAO.getInstance().getAllActivities();
+        List<String> categories = ActivityDAO.getInstance().getAllCategories();
         req.setAttribute("categoryList", categories);
         req.setAttribute("activityList", activityList);
         return "activityList.jsp";

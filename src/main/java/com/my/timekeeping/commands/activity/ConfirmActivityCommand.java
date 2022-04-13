@@ -1,5 +1,6 @@
-package com.my.timekeeping.Commands;
+package com.my.timekeeping.commands.activity;
 
+import com.my.timekeeping.commands.Command;
 import com.my.timekeeping.DAO.DBManager;
 import com.my.timekeeping.exceptions.DAOException;
 import com.my.timekeeping.exceptions.EncryptException;
@@ -11,15 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class FollowRequestCommand implements Command {
-    Logger logger = LogManager.getLogger(FollowRequestCommand.class);
+public class ConfirmActivityCommand implements Command {
+
+    Logger logger = LogManager.getLogger(ConfirmActivityCommand.class);
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DAOException, EncryptException {
-        logger.trace("command started");
-        Long user_id = Long.valueOf(req.getParameter("user_id"));
-        Long activity_id = Long.valueOf(req.getParameter("activity_id"));
-        DBManager.getInstance().followRequest(user_id, activity_id);
+        logger.trace("Command started");
+        Long userId = Long.valueOf(req.getParameter("user_id"));
+        Long activityId = Long.valueOf(req.getParameter("activity_id"));
+        DBManager.getInstance().confirmActivity(userId, activityId);
         String referer = "error.jsp";
         try {
             referer = new URI(req.getHeader("referer")).getPath();
@@ -28,6 +30,6 @@ public class FollowRequestCommand implements Command {
             e.printStackTrace();
         }
         return referer;
-        //return "controller?command=getAllActivity";
+        //return "controller?command=getAllUsers";
     }
 }

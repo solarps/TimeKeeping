@@ -1,6 +1,6 @@
-package com.my.timekeeping.Commands;
+package com.my.timekeeping.commands.user;
 
-import com.my.timekeeping.DTO.ActivityDTO;
+import com.my.timekeeping.commands.Command;
 import com.my.timekeeping.DTO.UserDTO;
 import com.my.timekeeping.PasswordUtil;
 import com.my.timekeeping.exceptions.DAOException;
@@ -12,9 +12,24 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+/**
+ * This class for login user.
+ * Class implements the Command interface {@link com.my.timekeeping.commands.Command} and overrides execute method.
+ *
+ * @author Andrey
+ * @version 1.0
+ */
 public class LoginCommand implements Command {
     private static final Logger logger = LogManager.getLogger(LoginCommand.class);
 
+    /**
+     * This method for login user. Method checks is password correct and set user in httpRequest session
+     *
+     * @param req  httpRequest in which get login and password, and set user which we get from database
+     * @param resp httpResponse
+     * @return adress to controller {@link com.my.timekeeping.Controller}
+     */
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DAOException, EncryptException {
         logger.trace("Command started");
@@ -31,6 +46,6 @@ public class LoginCommand implements Command {
         req.getSession().setAttribute("user", user);
         logger.trace("user {} authorized", user);
 
-        return "main.jsp";
+        return "index.jsp";
     }
 }

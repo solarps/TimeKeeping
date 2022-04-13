@@ -1,8 +1,8 @@
-package com.my.timekeeping.Commands;
+package com.my.timekeeping.commands;
 
-import com.my.timekeeping.Commands.filter.FilterByRoleCommand;
-import com.my.timekeeping.Commands.filter.GlobalActivityFilterCommand;
-import com.my.timekeeping.Commands.filter.GlobalUsersFilterCommand;
+import com.my.timekeeping.commands.filter.*;
+import com.my.timekeeping.commands.user.*;
+import com.my.timekeeping.commands.activity.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class CommandContainer {
         commands.put("filterByRole", new FilterByRoleCommand());
         commands.put("globalUsersFilter", new GlobalUsersFilterCommand());
         commands.put("globalActivityFilter", new GlobalActivityFilterCommand());
-        commands.put("createActivity",new CreateActivityCommand());
+        commands.put("createActivity", new CreateActivityCommand());
         commands.put("deleteActivity", new DeleteActivityCommand());
         commands.put("followActivity", new FollowActivityCommand());
         commands.put("unfollowActivity", new UnfollowActivityCommand());
@@ -30,9 +30,10 @@ public class CommandContainer {
         commands.put("refuseActivity", new RefuseActivityCommand());
     }
 
-    private CommandContainer(){}
+    private CommandContainer() {
+    }
 
-    public static Command getCommand(String commandName){
+    public static Command getCommand(String commandName) {
         return commands.get(commandName);
     }
 

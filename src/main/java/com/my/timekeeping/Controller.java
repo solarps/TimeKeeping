@@ -1,7 +1,7 @@
 package com.my.timekeeping;
 
-import com.my.timekeeping.Commands.Command;
-import com.my.timekeeping.Commands.CommandContainer;
+import com.my.timekeeping.commands.Command;
+import com.my.timekeeping.commands.CommandContainer;
 import com.my.timekeeping.exceptions.DAOException;
 import com.my.timekeeping.exceptions.EncryptException;
 import org.apache.logging.log4j.LogManager;

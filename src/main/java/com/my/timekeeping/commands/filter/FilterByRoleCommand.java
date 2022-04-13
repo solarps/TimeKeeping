@@ -1,6 +1,6 @@
-package com.my.timekeeping.Commands.filter;
+package com.my.timekeeping.commands.filter;
 
-import com.my.timekeeping.Commands.Command;
+import com.my.timekeeping.commands.Command;
 import com.my.timekeeping.DAO.UserDAO;
 import com.my.timekeeping.DTO.UserDTO;
 import com.my.timekeeping.exceptions.DAOException;

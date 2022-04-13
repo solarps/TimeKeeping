@@ -1,9 +1,8 @@
-package com.my.timekeeping.Commands.filter;
+package com.my.timekeeping.commands.filter;
 
-import com.my.timekeeping.Commands.Command;
-import com.my.timekeeping.DAO.DBManager;
+import com.my.timekeeping.commands.Command;
+import com.my.timekeeping.DAO.ActivityDAO;
 import com.my.timekeeping.DTO.ActivityDTO;
-import com.my.timekeeping.DTO.UserDTO;
 import com.my.timekeeping.exceptions.DAOException;
 import com.my.timekeeping.exceptions.EncryptException;
 import org.apache.logging.log4j.LogManager;
@@ -14,23 +13,35 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class for filtering activity in activityList.jsp
+ * Class implements the Command interface {@link com.my.timekeeping.commands.Command} and overrides execute method
+ *
+ * @author Andrey
+ * @version 1.0
+ */
 
 public class GlobalActivityFilterCommand implements Command {
     Logger logger = LogManager.getLogger(GlobalActivityFilterCommand.class);
 
+    /**
+     * This method gets parameters for filtering from httpRequest. Gets activity list and category list and filtering its
+     *
+     * @param req  httpReques in which we take parameters for filtering
+     * @param resp httpResponse
+     * @return adress to controller {@link com.my.timekeeping.Controller}
+     */
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DAOException, EncryptException {
         logger.trace("command started");
-        UserDTO user = (UserDTO) req.getSession().getAttribute("user");
-        List<ActivityDTO> activityList = DBManager.getInstance().getAllActivities(user);
-        List<String> categories = DBManager.getInstance().getAllCategories();
+        List<ActivityDTO> activityList = ActivityDAO.getInstance().getAllActivities();
+        List<String> categories = ActivityDAO.getInstance().getAllCategories();
         String name = req.getParameter("name");
         String category = req.getParameter("category");
 
-        if (name.isEmpty() && category.equals("ALL")){
+        if (name.isEmpty() && category.equals("ALL")) {
             return "controller?command=getAllActivity";
         }
-
         if (!name.isEmpty()) {
             logger.trace("search by name started");
             activityList = searchByName(activityList, name);
@@ -41,20 +52,32 @@ public class GlobalActivityFilterCommand implements Command {
             activityList = searchByCategory(activityList, category);
             logger.trace("searched by category");
         }
+
         req.setAttribute("categoryList", categories);
         req.setAttribute("activityList", activityList);
-
         return "activityList.jsp";
     }
 
-    private List<ActivityDTO> searchByCategory(List<ActivityDTO> activityList, String category) {
-        return activityList.stream()
+    /**
+     * This method for search activity by category
+     *
+     * @param activityDTOS list of activities
+     * @param category     name of needed category
+     */
+    private List<ActivityDTO> searchByCategory(List<ActivityDTO> activityDTOS, String category) {
+        return activityDTOS.stream()
                 .filter(activityDTO -> activityDTO.getCategory().equals(category))
                 .collect(Collectors.toList());
     }
 
-    private List<ActivityDTO> searchByName(List<ActivityDTO> activityDTOList, String name) {
-        return activityDTOList.stream()
+    /**
+     * This method for search activity by name
+     *
+     * @param activityDTOS list of activities
+     * @param name         name of needed activity
+     */
+    private List<ActivityDTO> searchByName(List<ActivityDTO> activityDTOS, String name) {
+        return activityDTOS.stream()
                 .filter(activityDTO -> activityDTO.getName().equals(name))
                 .collect(Collectors.toList());
     }

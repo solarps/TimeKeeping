@@ -1,6 +1,6 @@
-package com.my.timekeeping.Commands.filter;
+package com.my.timekeeping.commands.filter;
 
-import com.my.timekeeping.Commands.Command;
+import com.my.timekeeping.commands.Command;
 import com.my.timekeeping.DAO.DBManager;
 import com.my.timekeeping.DTO.UserDTO;
 import com.my.timekeeping.exceptions.DAOException;
@@ -15,9 +15,25 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class for filtering users in usersList.jsp.
+ * Class implements the Command interface {@link com.my.timekeeping.commands.Command} and overrides execute method.
+ *
+ * @author Andrey
+ * @version 1.0
+ */
+
+
 public class GlobalUsersFilterCommand implements Command {
     Logger logger = LogManager.getLogger(GlobalUsersFilterCommand.class);
 
+    /**
+     * This method gets parameters for filtering from httpRequest. Gets list of users with their activities.
+     *
+     * @param req  httpReques in which we take parameters for filtering
+     * @param resp httpResponse
+     * @return adress to controller {@link com.my.timekeeping.Controller}
+     */
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DAOException, EncryptException {
         logger.trace("command start");
@@ -27,7 +43,7 @@ public class GlobalUsersFilterCommand implements Command {
         String login = req.getParameter("login");
         String sortType = req.getParameter("sort");
 
-        if (name.isEmpty() && login.isEmpty() && roles == null){
+        if (name.isEmpty() && login.isEmpty() && roles == null) {
             return "controller?command=getAllUsers";
         }
 
@@ -53,6 +69,13 @@ public class GlobalUsersFilterCommand implements Command {
         return "usersList.jsp";
     }
 
+
+    /**
+     * This method for sort users.
+     *
+     * @param sortType type of sorting
+     * @param users    list of users
+     */
     private void sortByType(String sortType, List<UserDTO> users) {
         switch (sortType) {
             case "ROLE":
@@ -67,21 +90,40 @@ public class GlobalUsersFilterCommand implements Command {
         }
     }
 
-
-    private List<UserDTO> searchByLogin(String login, List<UserDTO> userDTOList) {
-        return userDTOList.stream()
+    /**
+     * This method for search user by login
+     *
+     * @param login    login of user
+     * @param userDTOS list of users
+     */
+    private List<UserDTO> searchByLogin(String login, List<UserDTO> userDTOS) {
+        return userDTOS.stream()
                 .filter(userDTO -> userDTO.getLogin().equals(login))
                 .collect(Collectors.toList());
     }
 
-    private List<UserDTO> filterByRole(String[] roles, List<UserDTO> userDTOList) {
-        return userDTOList.stream().filter(userDTO -> Arrays.stream(roles)
+    //TODO check necessity of array
+
+    /**
+     * This method for filter users by roles
+     *
+     * @param roles    array of roles of users
+     * @param userDTOS list of users
+     */
+    private List<UserDTO> filterByRole(String[] roles, List<UserDTO> userDTOS) {
+        return userDTOS.stream().filter(userDTO -> Arrays.stream(roles)
                         .anyMatch(role -> userDTO.getRole().toString().equals(role)))
                 .collect(Collectors.toList());
     }
 
-    private List<UserDTO> filterByName(String name, List<UserDTO> userDTOList) {
-        return userDTOList.stream()
+    /**
+     * This method for filter users by their name
+     *
+     * @param name     name of user
+     * @param userDTOS list of users
+     */
+    private List<UserDTO> filterByName(String name, List<UserDTO> userDTOS) {
+        return userDTOS.stream()
                 .filter(userDTO -> userDTO.getName().contains(name))
                 .collect(Collectors.toList());
     }

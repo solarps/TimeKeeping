@@ -1,4 +1,4 @@
-package com.my.timekeeping.Commands;
+package com.my.timekeeping.commands;
 
 import com.my.timekeeping.exceptions.DAOException;
 import com.my.timekeeping.exceptions.EncryptException;

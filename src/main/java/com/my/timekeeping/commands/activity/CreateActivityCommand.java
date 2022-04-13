@@ -1,5 +1,7 @@
-package com.my.timekeeping.Commands;
+package com.my.timekeeping.commands.activity;
 
+import com.my.timekeeping.commands.Command;
+import com.my.timekeeping.DAO.ActivityDAO;
 import com.my.timekeeping.DAO.DBManager;
 import com.my.timekeeping.entity.Activity;
 import com.my.timekeeping.exceptions.DAOException;
@@ -9,8 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.URI;
-import java.net.URISyntaxException;
+
 
 public class CreateActivityCommand implements Command {
 
@@ -23,13 +24,14 @@ public class CreateActivityCommand implements Command {
         final String name = req.getParameter("name");
         final String category = req.getParameter("category");
 
-        if (DBManager.getInstance().isActivityExist(name, category)) {
+        if (ActivityDAO.getInstance().isActivityExist(name, category)) {
             req.getSession().setAttribute("error", "Activity is already exist");
             logger.error("Activity is already exist");
             return "controller?command=getAllActivity";
         }
 
-        Activity activity = new Activity(name, category);
+        //Activity activity = new ActivityBuilder().setName(name).setCategory(category).build();
+        Activity activity = Activity.newBuilder().setName(name).setCategory(category).build();
         logger.trace("activity to register:{}", activity);
         DBManager.getInstance().addActivity(activity);
         return "controller?command=getAllActivity";
