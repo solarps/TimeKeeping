@@ -1,4 +1,4 @@
-package com.my.timekeeping.DAO;
+package com.my.timekeeping.dao;
 
 
 /**

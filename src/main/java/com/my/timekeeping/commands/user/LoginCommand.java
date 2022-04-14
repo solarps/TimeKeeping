@@ -1,11 +1,11 @@
 package com.my.timekeeping.commands.user;
 
 import com.my.timekeeping.commands.Command;
-import com.my.timekeeping.DTO.UserDTO;
+import com.my.timekeeping.dto.UserDTO;
 import com.my.timekeeping.PasswordUtil;
 import com.my.timekeeping.exceptions.DAOException;
 import com.my.timekeeping.exceptions.EncryptException;
-import com.my.timekeeping.DAO.UserDAO;
+import com.my.timekeeping.dao.UserDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,8 +26,8 @@ public class LoginCommand implements Command {
     /**
      * This method for login user. Method checks is password correct and set user in httpRequest session
      *
-     * @param req  httpRequest in which get login and password, and set user which we get from database
-     * @param resp httpResponse
+     * @param req  http-Request in which get login and password, and set user which we get from database
+     * @param resp http-Response
      * @return adress to controller {@link com.my.timekeeping.Controller}
      */
     @Override

@@ -1,4 +1,4 @@
-package com.my.timekeeping.DTO;
+package com.my.timekeeping.dto;
 
 import com.my.timekeeping.entity.Role;
 

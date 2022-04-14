@@ -1,8 +1,8 @@
 package com.my.timekeeping.commands.activity;
 
 import com.my.timekeeping.commands.Command;
-import com.my.timekeeping.DAO.ActivityDAO;
-import com.my.timekeeping.DTO.ActivityDTO;
+import com.my.timekeeping.dao.ActivityDAO;
+import com.my.timekeeping.dto.ActivityDTO;
 import com.my.timekeeping.exceptions.DAOException;
 import com.my.timekeeping.exceptions.EncryptException;
 import org.apache.logging.log4j.LogManager;
@@ -12,9 +12,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * This class get all activity.
+ * Class implements the Command interface {@link com.my.timekeeping.commands.Command} and overrides execute method.
+ *
+ * @author Andrey
+ * @version 1.0
+ */
 public class GetAllActivityCommand implements Command {
     Logger logger = LogManager.getLogger(GetAllActivityCommand.class);
 
+    /**
+     * This method for outputs all activity with their categories .
+     *
+     * @param req  http-Request in which we set list of activities
+     * @param resp http-Response
+     * @return adress to controller {@link com.my.timekeeping.Controller}
+     */
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws DAOException, EncryptException {
         logger.trace("Command started");

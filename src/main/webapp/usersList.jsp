@@ -91,13 +91,13 @@
                 <c:forEach var="user" items="${userList}">
                     <tr>
                         <td>
-                            <c:out value="${user.name}"></c:out>
+                            <c:out value="${user.name}"/>
                         </td>
                         <td>
-                            <c:out value="${user.login}"></c:out>
+                            <c:out value="${user.login}"/>
                         </td>
                         <td>
-                            <c:out value="${user.role}"></c:out>
+                            <c:out value="${user.role}"/>
                         </td>
                         <c:choose>
                             <c:when test="${user.role ne 'ADMIN' and fn:length(user.activities)!=0}">
@@ -124,10 +124,10 @@
                                                 <c:forEach var="activity" items="${user.activities}">
                                                     <tr>
                                                         <td>
-                                                            <c:out value="${activity.name}"></c:out>
+                                                            <c:out value="${activity.name}"/>
                                                         </td>
                                                         <td>
-                                                            <c:out value="${activity.category}"></c:out>
+                                                            <c:out value="${activity.category}"/>
                                                         </td>
                                                         <td>
                                                             <c:if test="${activity.state == 'WAITING'}">
@@ -137,7 +137,7 @@
                                                                     <input name="user_id" type="hidden"
                                                                            value="${user.id}">
                                                                     <input type="hidden" name="command"
-                                                                           value="confirmActivity">
+                                                                           value="confirmRequestActivity">
                                                                     <input type="submit"
                                                                            class="btn btn-lg btn-primary me-2"
                                                                            value="Confirm"><fmt:message key="confirm"/>
@@ -188,44 +188,6 @@
         </c:otherwise>
     </c:choose>
 </div>
-<c:if test="${requestScope.error != null}">
-    <div class="error-modal">
-        <div class="error-modal-overlay">
-            <div class="error-modal-content">
-                <span class="error_close close">&times;</span>
-                    <%-- this way we get the error information (error 404)--%>
-                <c:set var="code" value="${requestScope['javax.servlet.error.status_code']}"/>
-                <c:set var="message" value="${requestScope['javax.servlet.error.message']}"/>
-
-                    <%-- this way we get the exception --%>
-                <c:set var="exception" value="${requestScope['javax.servlet.error.exception']}"/>
-
-                <c:if test="${not empty code}">
-                    <h3>Error code: ${code}</h3>
-                </c:if>
-
-                <c:if test="${not empty message}">
-                    <h3>Message: ${message}</h3>
-                </c:if>
-
-                    <%-- if get this page using forward --%>
-                <c:if test="${not empty errorMessage and empty exception and empty code}">
-                    <h3>Error message: ${errorMessage}</h3>
-                </c:if>
-
-                    <%-- this way we print exception stack trace --%>
-                <c:if test="${not empty exception}">
-                    <hr/>
-                    <h3>Stack trace:</h3>
-                    <c:forEach var="stackTraceElement" items="${exception.stackTrace}">
-                        ${stackTraceElement}
-                    </c:forEach>
-                </c:if>
-
-            </div>
-        </div>
-    </div>
-</c:if>
 <script>
     const modals = document.querySelectorAll('.modal-content');
     const buttons = document.querySelectorAll('.btn-modal');

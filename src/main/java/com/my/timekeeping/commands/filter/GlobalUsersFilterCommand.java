@@ -1,8 +1,8 @@
 package com.my.timekeeping.commands.filter;
 
 import com.my.timekeeping.commands.Command;
-import com.my.timekeeping.DAO.DBManager;
-import com.my.timekeeping.DTO.UserDTO;
+import com.my.timekeeping.dao.DBManager;
+import com.my.timekeeping.dto.UserDTO;
 import com.my.timekeeping.exceptions.DAOException;
 import com.my.timekeeping.exceptions.EncryptException;
 import org.apache.logging.log4j.LogManager;
@@ -30,8 +30,8 @@ public class GlobalUsersFilterCommand implements Command {
     /**
      * This method gets parameters for filtering from httpRequest. Gets list of users with their activities.
      *
-     * @param req  httpReques in which we take parameters for filtering
-     * @param resp httpResponse
+     * @param req  http-Reques in which we take parameters for filtering
+     * @param resp http-Response
      * @return adress to controller {@link com.my.timekeeping.Controller}
      */
     @Override

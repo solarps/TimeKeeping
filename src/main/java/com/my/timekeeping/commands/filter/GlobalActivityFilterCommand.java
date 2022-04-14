@@ -1,8 +1,8 @@
 package com.my.timekeeping.commands.filter;
 
 import com.my.timekeeping.commands.Command;
-import com.my.timekeeping.DAO.ActivityDAO;
-import com.my.timekeeping.DTO.ActivityDTO;
+import com.my.timekeeping.dao.ActivityDAO;
+import com.my.timekeeping.dto.ActivityDTO;
 import com.my.timekeeping.exceptions.DAOException;
 import com.my.timekeeping.exceptions.EncryptException;
 import org.apache.logging.log4j.LogManager;
@@ -27,8 +27,8 @@ public class GlobalActivityFilterCommand implements Command {
     /**
      * This method gets parameters for filtering from httpRequest. Gets activity list and category list and filtering its
      *
-     * @param req  httpReques in which we take parameters for filtering
-     * @param resp httpResponse
+     * @param req  http-Reques in which we take parameters for filtering
+     * @param resp http-Response
      * @return adress to controller {@link com.my.timekeeping.Controller}
      */
     @Override

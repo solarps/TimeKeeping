@@ -3,8 +3,7 @@
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/log4j2.log" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/my/timekeeping/filter/SessionLocaleFilter.java" charset="ISO-8859-1" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/my/timekeeping/filter/SessionLocaleFilter.java" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/my/timekeeping/dao/ActivityDAO.java" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/my/timekeeping/filter/SessionLocaleFilter.java" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/Bundle resources/messages_ua.properties" charset="UTF-8" />

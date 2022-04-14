@@ -1,6 +1,6 @@
-package com.my.timekeeping.DAO;
+package com.my.timekeeping.dao;
 
-import com.my.timekeeping.DTO.UserDTO;
+import com.my.timekeeping.dto.UserDTO;
 import com.my.timekeeping.PasswordUtil;
 import com.my.timekeeping.entity.Role;
 import com.my.timekeeping.entity.User;
@@ -15,7 +15,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.my.timekeeping.DAO.SQLQuery.UserRequest.*;
+import static com.my.timekeeping.dao.SQLQuery.UserRequest.*;
 
 /**
  * This class for interaction in the database with user (dao layer)

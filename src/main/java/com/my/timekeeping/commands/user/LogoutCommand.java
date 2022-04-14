@@ -22,8 +22,8 @@ public class LogoutCommand implements Command {
     /**
      * This method remove user from session
      *
-     * @param req  httpRequest in which we get session
-     * @param resp httpResponse
+     * @param req  http-Request in which we get session
+     * @param resp http-Response
      * @return adress to controller {@link com.my.timekeeping.Controller}
      */
     @Override

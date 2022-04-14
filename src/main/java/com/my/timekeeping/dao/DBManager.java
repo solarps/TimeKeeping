@@ -1,7 +1,7 @@
-package com.my.timekeeping.DAO;
+package com.my.timekeeping.dao;
 
 import com.my.timekeeping.ConnectionPool;
-import com.my.timekeeping.DTO.UserDTO;
+import com.my.timekeeping.dto.UserDTO;
 import com.my.timekeeping.entity.Activity;
 import com.my.timekeeping.exceptions.DAOException;
 import org.apache.logging.log4j.LogManager;
@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-import static com.my.timekeeping.DAO.SQLQuery.FollowRequest.*;
+import static com.my.timekeeping.dao.SQLQuery.FollowRequest.*;
 
 /**
  * This support class for interacting with several entities in the database at once(dao layer)

@@ -1,8 +1,8 @@
 package com.my.timekeeping.commands.user;
 
 import com.my.timekeeping.commands.Command;
-import com.my.timekeeping.DAO.DBManager;
-import com.my.timekeeping.DTO.UserDTO;
+import com.my.timekeeping.dao.DBManager;
+import com.my.timekeeping.dto.UserDTO;
 import com.my.timekeeping.exceptions.DAOException;
 import com.my.timekeeping.exceptions.EncryptException;
 import org.apache.logging.log4j.LogManager;
@@ -27,8 +27,8 @@ public class GetAllUsersCommand implements Command {
     /**
      * This method for outputs all users
      *
-     * @param req  httpRequest in which we set list of users
-     * @param resp httpResponse
+     * @param req  http-Request in which we set list of users
+     * @param resp http-Response
      * @return adress to controller {@link com.my.timekeeping.Controller}
      */
     @Override

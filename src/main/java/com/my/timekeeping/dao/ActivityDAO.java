@@ -1,8 +1,8 @@
-package com.my.timekeeping.DAO;
+package com.my.timekeeping.dao;
 
 import com.my.timekeeping.ConnectionPool;
-import com.my.timekeeping.DTO.ActivityDTO;
-import com.my.timekeeping.DTO.UserDTO;
+import com.my.timekeeping.dto.ActivityDTO;
+import com.my.timekeeping.dto.UserDTO;
 import com.my.timekeeping.entity.Activity;
 import com.my.timekeeping.entity.State;
 import com.my.timekeeping.exceptions.DAOException;
@@ -13,7 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.my.timekeeping.DAO.SQLQuery.ActivityRequest.*;
+import static com.my.timekeeping.dao.SQLQuery.ActivityRequest.*;
 
 /**
  * This class for interaction in the database with activity (dao layer)

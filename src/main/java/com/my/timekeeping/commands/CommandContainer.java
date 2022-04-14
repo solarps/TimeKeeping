@@ -7,6 +7,12 @@ import com.my.timekeeping.commands.activity.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This command conteiner for realization Command pattern
+ *
+ * @author Andrey
+ * @version 1.0
+ */
 public class CommandContainer {
 
     private static final Map<String, Command> commands;
@@ -23,11 +29,10 @@ public class CommandContainer {
         commands.put("globalActivityFilter", new GlobalActivityFilterCommand());
         commands.put("createActivity", new CreateActivityCommand());
         commands.put("deleteActivity", new DeleteActivityCommand());
-        commands.put("followActivity", new FollowActivityCommand());
         commands.put("unfollowActivity", new UnfollowActivityCommand());
         commands.put("followRequestActivity", new FollowRequestCommand());
-        commands.put("confirmActivity", new ConfirmActivityCommand());
         commands.put("refuseActivity", new RefuseActivityCommand());
+        commands.put("confirmRequestActivity", new ConfirmRequestCommand());
     }
 
     private CommandContainer() {

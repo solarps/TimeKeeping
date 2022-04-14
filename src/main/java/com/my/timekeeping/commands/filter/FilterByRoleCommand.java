@@ -1,8 +1,8 @@
 package com.my.timekeeping.commands.filter;
 
 import com.my.timekeeping.commands.Command;
-import com.my.timekeeping.DAO.UserDAO;
-import com.my.timekeeping.DTO.UserDTO;
+import com.my.timekeeping.dao.UserDAO;
+import com.my.timekeeping.dto.UserDTO;
 import com.my.timekeeping.exceptions.DAOException;
 import com.my.timekeeping.exceptions.EncryptException;
 import org.apache.logging.log4j.LogManager;
