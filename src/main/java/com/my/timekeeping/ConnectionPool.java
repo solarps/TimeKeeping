@@ -7,13 +7,13 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 
 public class ConnectionPool {
     private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
-    private static final String DB_NAME = "jdbc/timekeeping";
     private static ConnectionPool instance;
     private static DataSource ds;
 
@@ -23,8 +23,7 @@ public class ConnectionPool {
     static {
         try {
             Context ctx = new InitialContext();
-            Context envContext = (Context) ctx.lookup("java:/comp/env");
-            ds = (DataSource) envContext.lookup(DB_NAME);
+            ds = (DataSource) ctx.lookup("java:/comp/env/datasource/ds");
             logger.info("Connection Pool initialized");
         } catch (NamingException e) {
             logger.fatal("Cannot init connection pool: {}", e.getMessage());
@@ -33,12 +32,12 @@ public class ConnectionPool {
 
 
     private ConnectionPool() {
-
     }
 
     public static synchronized ConnectionPool getInstance() {
-        if (instance == null)
+        if (instance == null){
             instance = new ConnectionPool();
+        }
         return instance;
     }
 

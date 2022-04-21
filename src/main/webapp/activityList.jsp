@@ -5,7 +5,7 @@
 <head>
     <%@include file="WEB-INF/includes/header-links.jsp" %>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title><fmt:message key="activities"/> </title>
+    <title><fmt:message key="activities"/></title>
 </head>
 <body>
 <%@include file="WEB-INF/includes/nav-bar.jsp" %>
@@ -58,24 +58,28 @@
         <div class="modal-overlay">
             <div class="modal-content text-center" style="user-select: none">
                 <span class="close">&times;</span>
-                <form method="post" action="controller">
-                    <h1 class="h3 mt-4 mb-3 font-weight-normal"><fmt:message key="pfes"/></h1>
-                    <input name="name" type="name" id="name" class="form-control "
-                           placeholder="<fmt:message key="name"/>" required>
-                    <br>
-                    <c:if test="${fn:length(categoryList) != 0}">
-                        <input class="form-check-input" type="checkbox" id="CheckCategory" onclick="checkCategory()">
-                        <label class="form-check-label" for="CheckCategory" id="CheckCategoryLabel"><fmt:message
-                                key="cec"/></label>
-                    </c:if>
-                    <br id="br">
-                    <input name="category" type="category" id="category" class="form-control "
-                           placeholder="<fmt:message key="category"/> "
-                           required>
-                    <br>
-                    <input type="hidden" name="command" value="createActivity">
-                    <input type="submit" class="btn btn-lg btn-primary btn-block" value="<fmt:message key="create"/> ">
-                </form>
+                <div class="conteiner">
+                    <form method="post" action="controller">
+                        <h1 class="h3 mt-4 mb-3 font-weight-normal"><fmt:message key="pfes"/></h1>
+                        <input name="name" type="name" id="name" class="form-control "
+                               placeholder="<fmt:message key="name"/>" required>
+                        <br>
+                        <c:if test="${fn:length(categoryList) != 0}">
+                            <input class="form-check-input" type="checkbox" id="CheckCategory"
+                                   onclick="checkCategory()">
+                            <label class="form-check-label" for="CheckCategory" id="CheckCategoryLabel"><fmt:message
+                                    key="cec"/></label>
+                        </c:if>
+                        <br id="br">
+                        <input name="category" type="category" id="category" class="form-control "
+                               placeholder="<fmt:message key="category"/> "
+                               required>
+                        <br>
+                        <input type="hidden" name="command" value="createActivity">
+                        <input type="submit" class="btn btn-lg btn-primary btn-block"
+                               value="<fmt:message key="create"/> ">
+                    </form>
+                </div>
             </div>
         </div>
     </c:if>

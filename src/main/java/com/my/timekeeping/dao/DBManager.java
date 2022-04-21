@@ -6,6 +6,7 @@ import com.my.timekeeping.entity.Activity;
 import com.my.timekeeping.exceptions.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -50,7 +51,7 @@ public class DBManager {
      */
     public List<UserDTO> getAllUsersWithActivities() throws DAOException {
         List<UserDTO> users = userDAOInstance.getAllUsers();
-        activityDAOInstance.mapAllActivityForeachUser(users);
+        if (users.size() > 0) activityDAOInstance.mapAllActivityForeachUser(users);
         return users;
     }
 
@@ -135,7 +136,7 @@ public class DBManager {
      * @param userId     user id
      * @param activityId activity id
      */
-    public void confirmActivity(Long userId, Long activityId) throws DAOException {
+    public void confirmFollowRequest(Long userId, Long activityId) throws DAOException {
         logger.trace("confirm activity started");
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement confirmStatement = connection.prepareStatement(CONFIRM_REQUEST)) {

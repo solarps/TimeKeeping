@@ -9,8 +9,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  * This class for confirm user follow request by admin.
@@ -35,7 +33,7 @@ public class ConfirmRequestCommand implements Command {
         logger.trace("Command started");
         Long userId = Long.valueOf(req.getParameter("user_id"));
         Long activityId = Long.valueOf(req.getParameter("activity_id"));
-        DBManager.getInstance().confirmActivity(userId, activityId);
+        DBManager.getInstance().confirmFollowRequest(userId, activityId);
         /*String referer = "error.jsp";
         try {
             referer = new URI(req.getHeader("referer")).getPath();

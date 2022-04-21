@@ -10,5 +10,6 @@
     <file url="file://$PROJECT_DIR$/src/main/webapp/flags" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/flags/GB.png" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/flags/UA.png" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/test/resources/db-create.sql" charset="UTF-8" />
   </component>
 </project>
