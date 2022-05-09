@@ -6,6 +6,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class for user dto.
+ *
+ * @author Andrey
+ * @version 1.0
+ */
 public class UserDTO implements Serializable {
     private Long id;
     private Role role;

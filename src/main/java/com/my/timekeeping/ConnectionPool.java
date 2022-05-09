@@ -11,15 +11,20 @@ import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-
+/**
+ * This class for implementation connection pool. (Singleton pattern)
+ *
+ * @author Andrey
+ * @version 1.0
+ */
 public class ConnectionPool {
     private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
     private static ConnectionPool instance;
     private static DataSource ds;
 
-    ///////////////
-    ///singleton///
-    ///////////////
+    /**
+     This block for takes datasource from JNDI context.
+     */
     static {
         try {
             Context ctx = new InitialContext();
@@ -34,13 +39,24 @@ public class ConnectionPool {
     private ConnectionPool() {
     }
 
+    /**
+     * This method for getting instance of connection pool class.
+     * If instance doesn't exist, method create new instance.
+     *
+     * @return instance of connection pool class.
+     */
     public static synchronized ConnectionPool getInstance() {
-        if (instance == null){
+        if (instance == null) {
             instance = new ConnectionPool();
         }
         return instance;
     }
 
+    /**
+     * This method for getting connection from datasource.
+     *
+     * @return connection.
+     */
     public Connection getConnection() throws SQLException {
         Connection connection = ds.getConnection();
         logger.trace("Get connection {}", connection);

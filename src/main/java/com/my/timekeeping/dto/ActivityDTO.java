@@ -4,6 +4,12 @@ import com.my.timekeeping.entity.State;
 
 import java.io.Serializable;
 
+/**
+ * This class for activity dto.
+ *
+ * @author Andrey
+ * @version 1.0
+ */
 public class ActivityDTO implements Serializable {
     private Long id;
     private String name;

@@ -13,7 +13,7 @@
     <form action="controller" method="post" style="max-width: 300px; margin: auto">
         <input type="hidden" name="command" value="login">
         <h1 class="h3 mt-4 mb-3 font-weight-normal"><fmt:message key="please_sing_in"/></h1>
-        <input name="login" type="login" id="login" class="form-control " placeholder="<fmt:message key="login" />"
+        <input name="login" id="login" class="form-control " placeholder="<fmt:message key="login" />"
                required><br>
         <input name="password" type="password" id="password" class="form-control"
                placeholder="<fmt:message key="password" />" required><br>

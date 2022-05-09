@@ -13,35 +13,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <c:choose>
-                    <c:when test="${sessionScope.user eq null}">
-                        <li><a href="index.jsp" class="nav-link active"><fmt:message key="home"/></a></li>
-                        <li><a href="login.jsp" class="nav-link"><fmt:message key="activities"/></a></li>
-                        <li><a href="login.jsp" class="nav-link"><fmt:message key="account"/></a></li>
-                    </c:when>
-                    <c:otherwise>
-                        <li><a href="index.jsp" class="nav-link active"><fmt:message key="home"/></a></li>
+                <li><a href="index.jsp" class="nav-link active"><fmt:message key="home"/></a></li>
+                <li><a class="nav-link"
+                       href="${pageContext.request.contextPath}/controller?command=getAllActivity"><fmt:message
+                        key="activities"/></a>
+                </li>
+                    <c:if test="${sessionScope.user.role eq 'ADMIN'}">
                         <li><a class="nav-link"
-                               href="${pageContext.request.contextPath}/controller?command=getAllActivity"><fmt:message
-                                key="activities"/></a>
+                               href="${pageContext.request.contextPath}/controller?command=getAllUsers"><fmt:message
+                                key="users"/></a>
                         </li>
-                        <c:choose>
-                            <c:when test="${sessionScope.user.role eq 'ADMIN'}">
-                                <li><a class="nav-link"
-                                       href="${pageContext.request.contextPath}/controller?command=getAllUsers"><fmt:message
-                                        key="users"/></a>
-                                </li>
-
-                            </c:when>
-                            <c:otherwise>
-
-                            </c:otherwise>
-
-                        </c:choose>
-                        <li><a href="account.jsp" class="nav-link"><fmt:message key="account"/></a></li>
-                    </c:otherwise>
-                </c:choose>
-
+                    </c:if>
+                <li><a href="account.jsp" class="nav-link"><fmt:message key="account"/></a></li>
             </ul>
         </div>
 
@@ -79,6 +62,4 @@
             </c:choose>
         </div>
     </nav>
-
-
 </header>

@@ -14,23 +14,43 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * This class controller for realizatoin MVC-pattern.
+ * It receives requests from the View layer and processes them.
+ * The requests are further sent to Model layer (Command pattern)
+ * for data processing, and once they are processed,
+ * the data is sent back to the Controller and then displayed on the View.
+ *
+ * @author Andrey
+ * @version 1.0
+ */
 @WebServlet("/controller")
 public class Controller extends HttpServlet {
     Logger logger = LogManager.getLogger(Controller.class);
 
+    /**
+     * This method handles requests to get
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String address = process(req, resp);
+        String address = processRequest(req, resp);
         req.getRequestDispatcher(address).forward(req, resp);
     }
-
+    /**
+     * This method handles post requests
+     */
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String address = process(req, resp);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String address = processRequest(req, resp);
         resp.sendRedirect(address);
     }
 
-    private String process(HttpServletRequest req, HttpServletResponse resp) {
+    /**
+     * This method for request processing and executing commands which get from client
+     *
+     * @return jsp address
+     */
+    private String processRequest(HttpServletRequest req, HttpServletResponse resp) {
         String commandName = req.getParameter("command");
         logger.trace("Request parameter command- -> {}", commandName);
         Command command = CommandContainer.getCommand(commandName);

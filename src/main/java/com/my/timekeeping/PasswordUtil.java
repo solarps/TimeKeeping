@@ -14,6 +14,9 @@ import java.security.spec.InvalidKeySpecException;
 
 /**
  * Class utility that encodes password and check identical passwords
+ *
+ * @author Andrey
+ * @version 1.0
  */
 public class PasswordUtil {
     // The higher the number of iterations the more
