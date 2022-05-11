@@ -1,5 +1,6 @@
 package com.my.timekeeping.filter;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -8,21 +9,20 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class EncodingFilterTest {
 
-    @Mock
-    HttpSession session;
+    @InjectMocks
+    private EncodingFilter encodingFilter;
 
     @Mock
-    private HttpServletRequest request;
+    private ServletRequest request;
 
     @Mock
     private ServletResponse response;
@@ -31,19 +31,21 @@ class EncodingFilterTest {
     private FilterChain filterChain;
 
     @Mock
-    private ServletContext servletContext;
-
-
-    @InjectMocks
-    private EncodingFilter loggingFilter;
-
+    private FilterConfig filterConfig;
 
     @Test
     public void testDoFilter() throws IOException, ServletException {
-
-        Mockito.when(request.getSession()).thenReturn(session);
-        Mockito.when(request.getServletContext()).thenReturn(servletContext);
         Mockito.doNothing().when(filterChain).doFilter(Mockito.eq(request), Mockito.eq(response));
 
+        String encode = "UTF-8";
+        when(filterConfig.getInitParameter("encoding")).thenReturn(encode);
+
+        encodingFilter.init(filterConfig);
+        when(request.getCharacterEncoding()).thenReturn("ISO-8859-1");
+
+        encodingFilter.doFilter(request, response, filterChain);
+        verify(request).setCharacterEncoding(encode);
+        verify(response).setCharacterEncoding(encode);
     }
+
 }
