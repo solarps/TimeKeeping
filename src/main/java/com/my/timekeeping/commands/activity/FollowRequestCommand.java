@@ -35,14 +35,6 @@ public class FollowRequestCommand implements Command {
         Long userId = Long.valueOf(req.getParameter("user_id"));
         Long activityId = Long.valueOf(req.getParameter("activity_id"));
         DBManager.getInstance().followRequest(userId, activityId);
-        String referer = "error.jsp";
-        try {
-            referer = new URI(req.getHeader("referer")).getPath();
-            referer = referer.concat("?command=getAllActivity");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return referer;
-        //return "controller?command=getAllActivity";
+        return "controller?command=getAllActivity";
     }
 }

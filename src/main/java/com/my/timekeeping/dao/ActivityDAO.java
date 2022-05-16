@@ -111,8 +111,8 @@ public class ActivityDAO {
         logger.trace("get all activities started");
         List<ActivityDTO> results = new ArrayList<>();
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(GET_ALL_ACTIVITIES_FOR_USER)) {
-            ResultSet resultSet = statement.executeQuery();
+             Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(GET_ALL_ACTIVITIES_FOR_USER);
             while (resultSet.next()) {
                 results.add(mapActivity(resultSet, 1));
             }

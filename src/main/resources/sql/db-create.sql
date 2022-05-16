@@ -1,6 +1,6 @@
-drop table if exists users_has_activity;
+drop table if exists users_has_activity cascade ;
 drop table if exists users cascade;
-drop table if exists user_role;
+drop table if exists user_role cascade ;
 drop table if exists activities cascade;
 drop table if exists activity_state cascade;
 drop table if exists activity_category cascade;

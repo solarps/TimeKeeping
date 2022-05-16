@@ -52,14 +52,6 @@ public class DeleteActivityCommand implements Command {
             ActivityDAO.getInstance().deleteCategory(category);
         }
 
-        String referer = "error.jsp";
-        try {
-            referer = new URI(req.getHeader("referer")).getPath();
-            referer = referer.concat("?command=getAllActivity");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return referer;
-        //return "controller?command=getAllActivity";
+        return "controller?command=getAllActivity";
     }
 }

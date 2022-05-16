@@ -27,18 +27,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ActivityDAOTest {
 
-    @Mock
-    ActivityDAO activityDAO;
-    @Mock
-    ConnectionPool connectionPool;
-    @Mock
-    Connection connection;
-    @Mock
-    PreparedStatement preparedStatement;
-    @Mock
-    Statement statement;
-    @Mock
-    ResultSet rs;
 
     @BeforeEach
     void createDB() throws SQLException, IOException {
@@ -53,11 +41,6 @@ class ActivityDAOTest {
 
     @Test
     void getInstanceTest() {
-        try (MockedStatic<ActivityDAO> mockStatic = Mockito.mockStatic(ActivityDAO.class)) {
-            mockStatic.when(ActivityDAO::getInstance).thenReturn(activityDAO);
-            assertNotNull(activityDAO);
-            assertEquals(ActivityDAO.getInstance(), activityDAO);
-        }
         ActivityDAO instance1 = ActivityDAO.getInstance();
         assertNotNull(instance1);
         ActivityDAO instance2 = ActivityDAO.getInstance();
@@ -66,89 +49,51 @@ class ActivityDAOTest {
     }
 
     @Test
-    void getAllActivitiesTest() throws SQLException {
-        List<ActivityDTO> result = new ArrayList<>();
-        try (MockedStatic<ConnectionPool> cp = Mockito.mockStatic(ConnectionPool.class)) {
-            cp.when(ConnectionPool::getInstance).thenReturn(connectionPool);
-            when(connectionPool.getConnection()).thenReturn(connection);
-            when(connection.prepareStatement(GET_ALL_ACTIVITIES_FOR_USER)).thenReturn(preparedStatement);
-            when(preparedStatement.executeQuery()).thenReturn(rs);
+    void getAllActivitiesTest() throws DAOException {
+        assertEquals(0, ActivityDAO.getInstance().getAllActivities().size());
 
-            assertNotNull(connection);
-            assertNotNull(preparedStatement);
-            assertNotNull(rs);
+        DBManager.getInstance().addActivity(Activity.newBuilder().setName("Study").setCategory("Study").build());
+        List<ActivityDTO> result = ActivityDAO.getInstance().getAllActivities();
 
-            assertEquals(ActivityDAO.getInstance().getAllActivities(), result);
-        } catch (DAOException e) {
-            e.printStackTrace();
-        }
+        assertEquals(1, result.size());
+        assertEquals("Study", result.get(0).getName());
 
     }
 
     @Test
-    void getAllCategories() {
-        try (MockedStatic<ConnectionPool> cp = Mockito.mockStatic(ConnectionPool.class)) {
-            cp.when(ConnectionPool::getInstance).thenReturn(connectionPool);
-            when(connectionPool.getConnection()).thenReturn(connection);
-            when(connection.createStatement()).thenReturn(statement);
-            when(statement.executeQuery(GET_ALL_CATEGORIES)).thenReturn(rs);
+    void getAllCategoriesTest() throws DAOException {
+        assertEquals(0, ActivityDAO.getInstance().getAllCategories().size());
 
-            assertNotNull(connection);
-            assertNotNull(preparedStatement);
-            assertNotNull(rs);
+        DBManager.getInstance().addActivity(Activity.newBuilder().setName("Study").setCategory("Study").build());
+        List<String> result = ActivityDAO.getInstance().getAllCategories();
 
-            assertEquals(ActivityDAO.getInstance().getAllCategories(), new ArrayList<>());
-        } catch (DAOException | SQLException e) {
-            e.printStackTrace();
-        }
+        assertEquals(1, result.size());
+        assertEquals("Study", result.get(0));
     }
 
     @Test
-    void isActivityExistFalseCase() {
-        try (MockedStatic<ConnectionPool> cp = Mockito.mockStatic(ConnectionPool.class)) {
-            cp.when(ConnectionPool::getInstance).thenReturn(connectionPool);
-            when(connectionPool.getConnection()).thenReturn(connection);
-            when(connection.prepareStatement(GET_ACTIVITY_BY_PARAMETERS)).thenReturn(preparedStatement);
-            when(preparedStatement.executeQuery()).thenReturn(rs);
+    void isActivityExistTest() throws DAOException {
+        assertFalse(ActivityDAO.getInstance().isActivityExist("Study", "Study"));
+        assertFalse(ActivityDAO.getInstance().isActivityCategoryExist("Study"));
 
-            assertNotNull(connection);
-            assertNotNull(preparedStatement);
-            assertNotNull(rs);
-
-            assertFalse(ActivityDAO.getInstance().isActivityExist("Study", "Study"));
-        } catch (DAOException | SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    void isActivityExistTrueCase() throws DAOException {
         DBManager.getInstance().addActivity(Activity.newBuilder().setName("Study").setCategory("Study").build());
 
         assertTrue(ActivityDAO.getInstance().isActivityExist("Study", "Study"));
         assertTrue(ActivityDAO.getInstance().isActivityCategoryExist("Study"));
+
+    }
+
+
+    @Test
+    void isActivityCategoryExistTest() throws DAOException {
+        ActivityDAO.getInstance().createActivityCategory("Study");
+        assertTrue(ActivityDAO.getInstance().isActivityCategoryExist("Study"));
+        ActivityDAO.getInstance().deleteCategory("Study");
+        assertFalse(ActivityDAO.getInstance().isActivityCategoryExist("Study"));
     }
 
     @Test
-    void isActivityCategoryExist() {
-        try (MockedStatic<ConnectionPool> cp = Mockito.mockStatic(ConnectionPool.class)) {
-            cp.when(ConnectionPool::getInstance).thenReturn(connectionPool);
-            when(connectionPool.getConnection()).thenReturn(connection);
-            when(connection.prepareStatement(GET_CATEGORY_BY_NAME)).thenReturn(preparedStatement);
-            when(preparedStatement.executeQuery()).thenReturn(rs);
-
-            assertNotNull(connection);
-            assertNotNull(preparedStatement);
-            assertNotNull(rs);
-
-            assertFalse(ActivityDAO.getInstance().isActivityCategoryExist("Study"));
-        } catch (DAOException | SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    void createActivityCategory() throws DAOException {
+    void createActivityCategoryTest() throws DAOException {
         ActivityDAO.getInstance().createActivityCategory("Study");
 
         assertTrue(ActivityDAO.getInstance().isActivityCategoryExist("Study"));
@@ -156,7 +101,7 @@ class ActivityDAOTest {
     }
 
     @Test
-    void deleteActivity() throws DAOException {
+    void deleteActivityTest() throws DAOException {
         Activity activity = Activity.newBuilder().setId(1L).setName("Study").setCategory("Study").build();
         DBManager.getInstance().addActivity(activity);
         assertTrue(ActivityDAO.getInstance().isActivityExist(activity.getName(), activity.getCategory()));
@@ -165,7 +110,7 @@ class ActivityDAOTest {
     }
 
     @Test
-    void getActivityId() throws DAOException {
+    void getActivityIdTest() throws DAOException {
         Activity activity = Activity.newBuilder().setId(1L).setName("Study").setCategory("Study").build();
         DBManager.getInstance().addActivity(activity);
         assertEquals(1L, ActivityDAO.getInstance().
@@ -173,14 +118,14 @@ class ActivityDAOTest {
     }
 
     @Test
-    void countOfCategory() throws DAOException {
+    void countOfCategoryTest() throws DAOException {
         assertEquals(0, ActivityDAO.getInstance().countOfCategory("Study"));
         DBManager.getInstance().addActivity(Activity.newBuilder().setName("Study").setCategory("Study").build());
         assertEquals(1, ActivityDAO.getInstance().countOfCategory("Study"));
     }
 
     @Test
-    void deleteCategory() throws DAOException {
+    void deleteCategoryTest() throws DAOException {
         ActivityDAO.getInstance().deleteCategory("Study");
     }
 }

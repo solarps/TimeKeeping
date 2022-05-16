@@ -38,7 +38,7 @@ class UserDAOTest {
     }
 
     @Test
-    void getInstance() {
+    void getInstanceTest() {
         UserDAO instance1 = UserDAO.getInstance();
         assertNotNull(instance1);
         UserDAO instance2 = UserDAO.getInstance();
@@ -46,7 +46,7 @@ class UserDAOTest {
     }
 
     @Test
-    void getUserByLogin() throws DAOException, EncryptException {
+    void getUserByLoginTest() throws DAOException, EncryptException {
         assertEquals(-1L, UserDAO.getInstance().getUserByLogin("Login").getId());
         UserDAO.getInstance().addUser(User.newBuilder()
                 .setRole(Role.USER)
@@ -59,7 +59,7 @@ class UserDAOTest {
 
 
     @Test
-    void getAllUsersByRole() throws DAOException, EncryptException {
+    void getAllUsersByRoleTest() throws DAOException, EncryptException {
         assertEquals(0, UserDAO.getInstance().getAllUsersByRole(new int[]{2}).size());
 
         UserDAO.getInstance().addUser(User.newBuilder()

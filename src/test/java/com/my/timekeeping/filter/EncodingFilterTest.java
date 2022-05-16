@@ -34,7 +34,7 @@ class EncodingFilterTest {
     private FilterConfig filterConfig;
 
     @Test
-    public void testDoFilter() throws IOException, ServletException {
+    public void doFilterTest() throws IOException, ServletException {
         Mockito.doNothing().when(filterChain).doFilter(Mockito.eq(request), Mockito.eq(response));
 
         String encode = "UTF-8";

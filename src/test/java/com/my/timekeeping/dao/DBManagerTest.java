@@ -74,7 +74,7 @@ class DBManagerTest {
     }
 
     @Test
-    void followRequestTests() throws DAOException, EncryptException {
+    void followRequestTest() throws DAOException, EncryptException {
         assertEquals(0, DBManager.getInstance().getAllUsersWithActivities().size());
         DBManager.getInstance().addActivity(Activity.newBuilder().setId(1L).setCategory("Study").setName("Study").build());
         UserDAO.getInstance().addUser(User.newBuilder()

@@ -102,7 +102,6 @@ public class GlobalUsersFilterCommand implements Command {
                 .collect(Collectors.toList());
     }
 
-    //TODO check necessity of array
 
     /**
      * This method for filter users by roles

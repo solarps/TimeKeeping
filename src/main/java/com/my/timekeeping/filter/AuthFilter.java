@@ -42,7 +42,7 @@ public class AuthFilter implements Filter {
         String path = req.getServletPath();
 
         if (session != null && session.getAttribute("user") == null
-                && !command.equals("login") && !excludedPages.contains(path)) {
+                && !"login".equals(command) && !excludedPages.contains(path)) {
             req.getRequestDispatcher("login.jsp").forward(req, res);
         }
 

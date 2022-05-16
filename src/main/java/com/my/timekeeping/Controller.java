@@ -54,7 +54,7 @@ public class Controller extends HttpServlet {
         String commandName = req.getParameter("command");
         logger.trace("Request parameter command- -> {}", commandName);
         Command command = CommandContainer.getCommand(commandName);
-        String address = "error.jsp";
+        String address;
         try {
             address = command.execute(req, resp);
         } catch (DAOException | EncryptException e) {
