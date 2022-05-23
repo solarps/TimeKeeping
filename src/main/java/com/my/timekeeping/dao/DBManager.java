@@ -158,4 +158,27 @@ public class DBManager {
     private void traceResult(int res) {
         logger.trace("Result :{}", res);
     }
+
+
+    /**
+     * This method sets spent time for user activity in database
+     *
+     * @param activity_id activity id
+     * @param user_id     user id
+     * @param time        time to set in database
+     */
+    public void setSpentTime(Long activity_id, Long user_id, String time) throws DAOException {
+        logger.trace("Set spent time started");
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement setSpentTimeStatement = connection.prepareStatement(SET_SPENT_TIME)) {
+            setSpentTimeStatement.setString(1, time);
+            setSpentTimeStatement.setLong(2, user_id);
+            setSpentTimeStatement.setLong(3, activity_id);
+            int res = setSpentTimeStatement.executeUpdate();
+            traceResult(res);
+
+        } catch (SQLException exception) {
+            throw new DAOException("Error while trying set spent time");
+        }
+    }
 }

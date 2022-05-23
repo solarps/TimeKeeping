@@ -1,6 +1,6 @@
-drop table if exists users_has_activity cascade ;
+drop table if exists users_has_activity cascade;
 drop table if exists users cascade;
-drop table if exists user_role cascade ;
+drop table if exists user_role cascade;
 drop table if exists activities cascade;
 drop table if exists activity_state cascade;
 drop table if exists activity_category cascade;
@@ -45,7 +45,8 @@ create table if not exists users_has_activity
 (
     user_id     bigserial,
     activity_id bigserial,
-    state_id       smallserial,
+    state_id    smallserial,
+    spent_time  interval,
     foreign key (user_id) references users (id),
     foreign key (activity_id) references activities (id),
     foreign key (state_id) references activity_state (id)

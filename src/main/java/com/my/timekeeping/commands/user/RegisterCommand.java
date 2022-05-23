@@ -2,6 +2,7 @@ package com.my.timekeeping.commands.user;
 
 import com.my.timekeeping.commands.Command;
 import com.my.timekeeping.dao.UserDAO;
+import com.my.timekeeping.dto.UserDTO;
 import com.my.timekeeping.entity.Role;
 import com.my.timekeeping.entity.User;
 import com.my.timekeeping.exceptions.DAOException;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * This class for register user.
- * Class implements the Command interface {@link com.my.timekeeping.commands.Command} and overrides execute method.
+ * Class implements the Command interface {@link Command} and overrides execute method.
  *
  * @author Andrey
  * @version 1.0
@@ -25,7 +26,6 @@ public class RegisterCommand implements Command {
 
     /**
      * This method for register user in database. Method check if user exists and register him
-     * Class implements the Command interface {@link com.my.timekeeping.commands.Command} and overrides execute method.
      *
      * @param req  http-Request in which get parameters to registrate user
      * @param resp http-Response
@@ -49,7 +49,8 @@ public class RegisterCommand implements Command {
         logger.debug("user to register: {}", user);
         user.setId(UserDAO.getInstance().addUser(user));
         user.setPassword(null);
-        req.getSession().setAttribute("user", user);
+        UserDTO userDTO = UserDAO.getInstance().getUserByLogin(user.getLogin());
+        req.getSession().setAttribute("user", userDTO);
         logger.trace("user {} authorized", user);
         return "index.jsp";
     }

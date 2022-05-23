@@ -33,6 +33,7 @@ public class CommandContainer {
         commands.put("followRequestActivity", new FollowRequestCommand());
         commands.put("refuseActivity", new RefuseActivityCommand());
         commands.put("confirmRequestActivity", new ConfirmRequestCommand());
+        commands.put("setSpentTime", new SetSpentTimeCommand());
     }
 
     private CommandContainer() {

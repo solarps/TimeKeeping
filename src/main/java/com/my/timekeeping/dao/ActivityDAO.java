@@ -83,6 +83,7 @@ public class ActivityDAO {
         activityDTO.setId(rs.getLong(k++));
         activityDTO.setName(rs.getString(k++));
         activityDTO.setCategory(rs.getString(k++));
+        activityDTO.setSpentTime(rs.getString(k++));
         activityDTO.setState(State.valueOf(rs.getString(k++)));
         logger.debug("mapped activity: {}", activityDTO);
         return activityDTO;
@@ -105,14 +106,17 @@ public class ActivityDAO {
     /**
      * This method that receives all activities
      *
+     * @param id user id
      * @return list of activities obtained from database
      */
-    public List<ActivityDTO> getAllActivities() throws DAOException {
+    public List<ActivityDTO> getAllActivities(Long id) throws DAOException {
         logger.trace("get all activities started");
         List<ActivityDTO> results = new ArrayList<>();
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(GET_ALL_ACTIVITIES_FOR_USER);
+             PreparedStatement getAllActivitiesStatement = connection.prepareStatement(GET_ALL_ACTIVITIES_FOR_USER)) {
+            getAllActivitiesStatement.setLong(1, id);
+            getAllActivitiesStatement.setLong(2, id);
+            ResultSet resultSet = getAllActivitiesStatement.executeQuery();
             while (resultSet.next()) {
                 results.add(mapActivity(resultSet, 1));
             }

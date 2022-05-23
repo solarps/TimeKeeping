@@ -1,6 +1,7 @@
 package com.my.timekeeping.dao;
 
 import com.my.timekeeping.ConnectionPool;
+import com.my.timekeeping.dto.ActivityDTO;
 import com.my.timekeeping.dto.UserDTO;
 import com.my.timekeeping.entity.Activity;
 import com.my.timekeeping.entity.Role;
@@ -68,9 +69,9 @@ class DBManagerTest {
 
     @Test
     void addActivityTest() throws DAOException {
-        assertEquals(0, ActivityDAO.getInstance().getAllActivities().size());
+        assertEquals(0, ActivityDAO.getInstance().getAllActivities(1L).size());
         DBManager.getInstance().addActivity(Activity.newBuilder().setName("Study").setCategory("Study").build());
-        assertEquals(1, ActivityDAO.getInstance().getAllActivities().size());
+        assertEquals(1, ActivityDAO.getInstance().getAllActivities(1L).size());
     }
 
     @Test
@@ -89,5 +90,23 @@ class DBManagerTest {
 
         DBManager.getInstance().confirmFollowRequest(1L, 1L);
         assertEquals(State.FOLLOWED, DBManager.getInstance().getAllUsersWithActivities().get(0).getActivities().get(0).getState());
+    }
+
+    @Test
+    void setSpentTimeTets() throws DAOException, EncryptException {
+        assertEquals(0, DBManager.getInstance().getAllUsersWithActivities().size());
+        DBManager.getInstance().addActivity(Activity.newBuilder().setId(1L).setCategory("Study").setName("Study").build());
+        UserDAO.getInstance().addUser(User.newBuilder()
+                .setId(1L)
+                .setRole(Role.USER)
+                .setLogin("User")
+                .setName("User")
+                .setPassword("password")
+                .build());
+        DBManager.getInstance().followActivity(1L, 1L);
+        assertNull(ActivityDAO.getInstance().getAllActivities(1L).get(0).getSpentTime().getTime());
+        DBManager.getInstance().setSpentTime(1L, 1L, "111:12:12");
+        List<ActivityDTO> activityDTOS = ActivityDAO.getInstance().getAllActivities(1L);
+        assertEquals("111:12:12", activityDTOS.get(0).getSpentTime().getTime());
     }
 }

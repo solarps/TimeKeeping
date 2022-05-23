@@ -13,6 +13,9 @@
 <div class="container">
 
     <div class="row">
+        <c:if test="${sessionScope.user.role eq 'USER'}">
+            <div class="col-sm-3 text-center text-secondary"><h4><fmt:message key="sbs"/></h4></div>
+        </c:if>
         <div class="col-sm-3 text-center text-secondary"><h4><fmt:message key="sbc"/></h4></div>
         <div class="col-sm-4 text-center text-secondary"><h4><fmt:message key="sbn1"/></h4></div>
         <div class="col-sm-6 text-center text-secondary"></div>
@@ -21,6 +24,31 @@
     <form method="get" action="controller">
 
         <div class="row">
+
+            <%--STATE FILTRATION FOR USER--%>
+            <c:if test="${sessionScope.user.role eq 'USER'}">
+                <div class="col-sm-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="FOLLOWED" id="followCheck"
+                               name="state">
+                        <label class="form-check-label" for="followCheck"><fmt:message key="following"/> </label>
+                    </div>
+
+                    <div class="form-check text-left">
+                        <input class="form-check-input" type="checkbox" value="UNFOLLOWED" id="unfollowCheck"
+                               name="state">
+                        <label class="form-check-label" for="unfollowCheck"><fmt:message key="not_follow"/> </label>
+                    </div>
+
+                    <div class="form-check text-left">
+                        <input class="form-check-input" type="checkbox" value="WAITING" id="requestCheck"
+                               name="state">
+                        <label class="form-check-label" for="requestCheck"><fmt:message key="request"/> </label>
+                    </div>
+                </div>
+
+            </c:if>
+
             <%--CATEGORY FILTRATION--%>
             <div class="col-sm-3 text-center">
                 <h6><fmt:message key="chooseCategory"/></h6>
@@ -40,28 +68,40 @@
                 <input type="text" placeholder="<fmt:message key="name2"/>" name="name">
 
             </div>
+            <c:choose>
+                <c:when test="${sessionScope.user.role eq 'ADMIN'}">
+                    <div class="col-sm-4 text-center">
+                        <input type="hidden" name="command" value="globalActivityFilter">
+                        <button type="submit" class="btn btn-sm btn-primary me-2"
+                                value="Search"><fmt:message key="search"/>
+                        </button>
+                        <c:if test="${sessionScope.user.role eq 'ADMIN'}">
+                            <button class="btn-modal btn-sm btn-primary me-2 btn" type="button">
+                                <fmt:message key="ana_btn"/>
+                            </button>
+                        </c:if>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="col-sm-2 text-center">
+                        <input type="hidden" name="command" value="globalActivityFilter">
+                        <button type="submit" class="btn btn-sm btn-primary me-2"
+                                value="Search"><fmt:message key="search"/>
+                        </button>
+                    </div>
+                </c:otherwise>
+            </c:choose>
 
-            <div class="col-sm-4 text-center">
-                <input type="hidden" name="command" value="globalActivityFilter">
-                <button type="submit" class="btn btn-sm btn-primary me-2"
-                        value="Search"><fmt:message key="search"/>
-                </button>
-                <c:if test="${sessionScope.user.role eq 'ADMIN'}">
-                    <button class="btn-modal btn-sm btn-primary me-2 btn" type="button">
-                        <fmt:message key="ana_btn"/>
-                    </button>
-                </c:if>
-            </div>
         </div>
     </form>
     <c:if test="${sessionScope.user.role eq 'ADMIN'}">
         <div class="modal-overlay">
-            <div class="modal-content text-center" style="user-select: none">
+            <div class="modal-content text-center" style="width:380px; user-select: none">
                 <span class="close">&times;</span>
                 <div class="conteiner">
                     <form method="post" action="controller">
                         <h1 class="h3 mt-4 mb-3 font-weight-normal"><fmt:message key="pfes"/></h1>
-                        <input name="name" type="name" id="name" class="form-control "
+                        <input name="name" id="name" class="form-control "
                                placeholder="<fmt:message key="name"/>" required>
                         <br>
                         <c:if test="${fn:length(categoryList) != 0}">
@@ -71,7 +111,7 @@
                                     key="cec"/></label>
                         </c:if>
                         <br id="br">
-                        <input name="category" type="category" id="category" class="form-control "
+                        <input name="category" id="category" class="form-control "
                                placeholder="<fmt:message key="category"/> "
                                required>
                         <br>
@@ -99,6 +139,9 @@
                 <tr>
                     <th scope="col"><fmt:message key="name"/></th>
                     <th scope="col"><fmt:message key="category"/></th>
+                    <c:if test="${sessionScope.user.role ne 'ADMIN'}">
+                        <th scope="col"><fmt:message key="spent_time"/></th>
+                    </c:if>
                     <th scope="col"><fmt:message key="action"/></th>
                 </tr>
                 </thead>
@@ -106,16 +149,21 @@
                 <tbody>
                 <c:forEach var="activity" items="${activityList}">
                     <tr>
-                        <form method="post" action="controller">
-                            <td style="width: 35%">
-                                <c:out value="${activity.name}"/>
-                            </td>
-                            <td style="width: 35%">
-                                <c:out value="${activity.category}"/>
-                            </td>
+                        <td>
+                            <c:out value="${activity.name}"/>
+                        </td>
+                        <td style="width: 35%">
+                            <c:out value="${activity.category}"/>
+                        </td>
+                        <c:if test="${sessionScope.user.role ne 'ADMIN'}">
                             <td>
-                                <c:choose>
-                                    <c:when test="${sessionScope.user.role eq 'ADMIN'}">
+                                <c:out value="${activity.spentTime.time}"/>
+                            </td>
+                        </c:if>
+                        <td>
+                            <c:choose>
+                                <c:when test="${sessionScope.user.role eq 'ADMIN'}">
+                                    <form method="post" action="controller">
                                         <input name="id" type="hidden" value="${activity.id}">
                                         <input name="name" type="hidden" value="${activity.name}">
                                         <input name="category" type="hidden" value="${activity.category}">
@@ -123,9 +171,11 @@
                                         <button type="submit" class="btn btn-sm btn-danger" value="Delete">
                                             <fmt:message key="delete"/>
                                         </button>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:if test="${activity.state == 'UNFOLLOWED'}">
+                                    </form>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:if test="${activity.state == 'UNFOLLOWED'}">
+                                        <form method="post" action="controller">
                                             <input name="activity_id" type="hidden" value="${activity.id}">
                                             <input name="user_id" type="hidden" value="${sessionScope.user.id}">
                                             <input type="hidden" name="command" value="followRequestActivity">
@@ -133,8 +183,47 @@
                                                     value="Follow">
                                                 <fmt:message key="follow"/>
                                             </button>
-                                        </c:if>
-                                        <c:if test="${activity.state == 'FOLLOWED'}">
+                                        </form>
+                                    </c:if>
+                                    <c:if test="${activity.state == 'FOLLOWED'}">
+                                        <button class="btn-modal btn-sm btn-primary me-2 btn" id="${activity.id}"
+                                                style="border-radius: 5px">
+                                            <fmt:message key="set_time"/>
+                                        </button>
+                                        <div class="modal-overlay" id="${activity.id}">
+                                            <div class="modal-content text-center" id="${activity.id}"
+                                                 style="width:380px; user-select: none">
+                                                <span class="close">&times;</span>
+                                                <div class="conteiner">
+                                                    <form method="post" action="controller">
+                                                        <div style="margin: 10px">
+                                                            <input name="hours" type="number"
+                                                                   style="width:60px;text-align: right" size="40"
+                                                                   min="0"
+                                                                   max="9999"
+                                                                   value="${activity.spentTime.hours}" required>
+                                                            :
+                                                            <input name="minutes" type="number"
+                                                                   style="width:40px;text-align: right" size="40"
+                                                                   min="0"
+                                                                   max="59" value="${activity.spentTime.minutes}"
+                                                                   required>
+                                                            :
+                                                            <input name="seconds" type="number"
+                                                                   style="width:40px;text-align: right" size="40"
+                                                                   min="0"
+                                                                   max="59" value="${activity.spentTime.seconds}"
+                                                                   required>
+                                                        </div>
+                                                        <input type="hidden" name="activity_id" value="${activity.id}">
+                                                        <input type="hidden" name="command" value="setSpentTime">
+                                                        <input type="submit" class="btn btn-lg btn-primary btn-block"
+                                                               value="<fmt:message key="set"/>">
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <form method="post" action="controller">
                                             <input name="activity_id" type="hidden" value="${activity.id}">
                                             <input name="user_id" type="hidden" value="${sessionScope.user.id}">
                                             <input type="hidden" name="command" value="unfollowActivity">
@@ -142,8 +231,10 @@
                                                     value="Unfollow">
                                                 <fmt:message key="unfollow"/>
                                             </button>
-                                        </c:if>
-                                        <c:if test="${activity.state == 'WAITING'}">
+                                        </form>
+                                    </c:if>
+                                    <c:if test="${activity.state == 'WAITING'}">
+                                        <form method="post" action="controller">
                                             <div class="alert alert-secondary" role="alert">
                                                 <fmt:message key="request_sent"/>
                                             </div>
@@ -154,11 +245,11 @@
                                                     value="Unfollow">
                                                 <fmt:message key="unfollow"/>
                                             </button>
-                                        </c:if>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                        </form>
+                                        </form
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -200,6 +291,31 @@
             modal_overlay.classList.remove('modal-overlay--visible');
         }
     })
+
+    const modals = document.querySelectorAll('.modal-content');
+    const buttons = document.querySelectorAll('.btn-modal');
+    const modal_overlays = document.querySelectorAll('.modal-overlay');
+    const closes = document.querySelectorAll('.close');
+
+    buttons.forEach(button => button.addEventListener('click', () => {
+        modals.forEach(modal => {
+            if (modal.id == button.id) {
+                modal_overlays.forEach(overlay => {
+                    if (overlay.id == modal.id) {
+                        modal.classList.add('modal--visible');
+                        overlay.classList.add('modal-overlay--visible');
+                        closes.forEach(c => {
+                            overlay.addEventListener('click', (e) => {
+                                if (e.target == overlay || e.target == c) {
+                                    overlay.classList.remove('modal-overlay--visible');
+                                }
+                            })
+                        })
+                    }
+                })
+            }
+        })
+    }))
 
     const checkBox = document.getElementById('CheckCategory');
     const category = document.getElementById('category');

@@ -5,24 +5,17 @@ import com.my.timekeeping.dto.ActivityDTO;
 import com.my.timekeeping.entity.Activity;
 import com.my.timekeeping.exceptions.DAOException;
 import org.apache.ibatis.jdbc.ScriptRunner;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.*;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.my.timekeeping.dao.SQLQuery.ActivityRequest.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ActivityDAOTest {
@@ -50,10 +43,10 @@ class ActivityDAOTest {
 
     @Test
     void getAllActivitiesTest() throws DAOException {
-        assertEquals(0, ActivityDAO.getInstance().getAllActivities().size());
+        assertEquals(0, ActivityDAO.getInstance().getAllActivities(1L).size());
 
         DBManager.getInstance().addActivity(Activity.newBuilder().setName("Study").setCategory("Study").build());
-        List<ActivityDTO> result = ActivityDAO.getInstance().getAllActivities();
+        List<ActivityDTO> result = ActivityDAO.getInstance().getAllActivities(1L);
 
         assertEquals(1, result.size());
         assertEquals("Study", result.get(0).getName());

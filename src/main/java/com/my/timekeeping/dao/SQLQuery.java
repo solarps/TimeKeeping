@@ -42,7 +42,7 @@ public class SQLQuery {
         private ActivityRequest() {
         }
 
-        public static final String GET_ALL_FOR_USER_WHERE_TEMPLATE = "select user_id, activity_id, name, title as category, state\n" +
+        public static final String GET_ALL_FOR_USER_WHERE_TEMPLATE = "select user_id, activity_id, name, title as category, spent_time, state\n" +
                 "from users_has_activity\n" +
                 "         join activities a on a.id = users_has_activity.activity_id\n" +
                 "         join activity_category ac on ac.id = a.category_id\n" +
@@ -50,10 +50,16 @@ public class SQLQuery {
                 "where ";
         public static final String GET_ALL_ACTIVITIES = "select activities.id, name, title as category from activities " +
                 "join activity_category ac on ac.id = activities.category_id";
-        public static final String GET_ALL_ACTIVITIES_FOR_USER = "select activities.id, name, title as category, case when state_id is null then 'UNFOLLOWED' else state end\n" +
+        public static final String GET_ALL_ACTIVITIES_FOR_USER = "select activities.id, name,\n" +
+                "       title as category,\n" +
+                "       uha.spent_time,\n" +
+                "       CASE\n" +
+                "           WHEN uha.user_id != ? or state is null THEN 'UNFOLLOWED' else state\n" +
+                "           END\n" +
+                "             as state\n" +
                 "from activities\n" +
                 "         join activity_category ac on ac.id = activities.category_id\n" +
-                "         left join users_has_activity uha on activities.id = uha.activity_id\n" +
+                "         left join users_has_activity uha on activities.id = uha.activity_id and uha.user_id = ?\n" +
                 "         left join activity_state \"as\" on \"as\".id = state_id";
         public static final String GET_ALL_CATEGORIES = "select title from activity_category";
         public static final String GET_CATEGORY_BY_NAME = "select * from activity_category where title = ?";
@@ -84,9 +90,11 @@ public class SQLQuery {
         private FollowRequest() {
         }
 
+        public static final String SET_SPENT_TIME = "UPDATE users_has_activity SET spent_time = ?::interval WHERE user_id = ? AND activity_id = ?";
         public static final String FOLLOW_ACTIVITY = "insert into users_has_activity values (?,?)";
         public static final String FOLLOW_REQUEST = "insert into users_has_activity values (?,?,?)";
         public static final String UNFOLLOW_ACTIVITY = "DELETE FROM users_has_activity WHERE user_id = ? AND activity_id = ?";
-        public static final String CONFIRM_REQUEST = "UPDATE public.users_has_activity SET state_id = 1 WHERE user_id = ? AND activity_id = ?";
+        public static final String CONFIRM_REQUEST = "UPDATE public.users_has_activity SET state_id = 1, spent_time = '0'::interval" +
+                "  WHERE user_id = ? AND activity_id = ?";
     }
 }

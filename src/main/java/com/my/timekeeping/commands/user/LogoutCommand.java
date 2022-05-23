@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * This class for logout user.
- * Class implements the Command interface {@link com.my.timekeeping.commands.Command} and overrides execute method.
+ * Class implements the Command interface {@link Command} and overrides execute method.
  *
  * @author Andrey
  * @version 1.0
