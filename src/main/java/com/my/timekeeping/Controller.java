@@ -36,6 +36,7 @@ public class Controller extends HttpServlet {
         String address = processRequest(req, resp);
         req.getRequestDispatcher(address).forward(req, resp);
     }
+
     /**
      * This method handles post requests
      */

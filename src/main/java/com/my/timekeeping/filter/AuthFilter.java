@@ -24,13 +24,14 @@ public class AuthFilter implements Filter {
 
     private static final Logger logger = LogManager.getLogger(AuthFilter.class);
     private List<String> excludedPages = Arrays.asList("/index.jsp", "/register.jsp");
+    private List<String> excludedCommands = Arrays.asList("login", "register");
 
     /**
      * Method checks is user authorized and if not redirects servlet to login.jsp
      *
-     * @param servletRequest servlet request
+     * @param servletRequest  servlet request
      * @param servletResponse servlet response
-     * @param filterChain list of filters to be processed
+     * @param filterChain     list of filters to be processed
      */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -42,7 +43,7 @@ public class AuthFilter implements Filter {
         String path = req.getServletPath();
 
         if (session != null && session.getAttribute("user") == null
-                && !"login".equals(command) && !excludedPages.contains(path)) {
+                && !excludedCommands.contains(command) && !excludedPages.contains(path)) {
             req.getRequestDispatcher("login.jsp").forward(req, res);
         }
 
@@ -52,5 +53,6 @@ public class AuthFilter implements Filter {
     @Override
     public void destroy() {
         excludedPages = null;
+        excludedCommands = null;
     }
 }

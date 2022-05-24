@@ -152,7 +152,7 @@
                         <td>
                             <c:out value="${activity.name}"/>
                         </td>
-                        <td style="width: 35%">
+                        <td>
                             <c:out value="${activity.category}"/>
                         </td>
                         <c:if test="${sessionScope.user.role ne 'ADMIN'}">
